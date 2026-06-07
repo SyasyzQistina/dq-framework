@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Quality Report — {{ profile.dataset_name }}</title>
+<style>
+  :root { --green:#1D9E75; --red:#E24B4A; --amber:#EF9F27; --grey:#f5f5f3; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; }
+  header { background:var(--green); color:#fff; padding:2rem; }
+  header h1 { font-size:1.6rem; font-weight:600; }
+  header p  { opacity:.85; margin-top:.3rem; }
+  .badge { display:inline-block; padding:.2rem .7rem; border-radius:999px;
+           font-size:.8rem; font-weight:600; color:#fff; }
+  .badge-high   { background:var(--red); }
+  .badge-medium { background:var(--amber); }
+  .badge-low    { background:var(--green); }
+  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+  section { margin-bottom:2.5rem; }
+  h2 { font-size:1.1rem; font-weight:600; border-bottom:2px solid var(--green);
+       padding-bottom:.4rem; margin-bottom:1rem; }
+  .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; }
+  .card { background:var(--grey); border-radius:10px; padding:1.2rem; text-align:center; }
+  .card .value { font-size:2rem; font-weight:700; color:var(--green); }
+  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
+  .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .charts img { width:100%; border-radius:8px; border:1px solid #eee; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; }
+  th { background:var(--green); color:#fff; padding:.5rem .8rem; text-align:left; }
+  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
+  tr:nth-child(even) td { background:var(--grey); }
+  .score-cell { font-weight:600; }
+  .score-high   { color:var(--red); }
+  .score-medium { color:var(--amber); }
+  .score-good   { color:var(--green); }
+  details { margin-bottom:.6rem; }
+  summary { cursor:pointer; padding:.4rem .6rem; background:var(--grey);
+            border-radius:6px; font-weight:500; }
+  .issue-block { padding:.6rem 1rem; border-left:3px solid var(--amber);
+                 margin-top:.4rem; background:#fafaf8; border-radius:0 6px 6px 0; }
+  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Data Quality Report: {{ profile.dataset_name }}</h1>
+  <p>Generated {{ profile.run_timestamp.strftime('%Y-%m-%d %H:%M UTC') }}
+     &nbsp;·&nbsp; {{ profile.n_rows | format_number }} rows
+     &nbsp;·&nbsp; {{ profile.n_cols }} columns
+     &nbsp;·&nbsp; Overall score:
+     <strong>{{ "%.1f%%" | format(profile.overall_score * 100) }}</strong>
+  </p>
+</header>
+
+<main>
+
+  <!-- Summary cards -->
+  <section>
+    <h2>Summary</h2>
+    <div class="summary-grid">
+      <div class="card">
+        <div class="value">{{ "%.0f%%" | format(profile.overall_score * 100) }}</div>
+        <div class="label">Overall score</div>
+      </div>
+      {% for dim, score in profile.dimension_scores.items() %}
+      <div class="card">
+        <div class="value">{{ "%.0f%%" | format(score * 100) }}</div>
+        <div class="label">{{ dim | capitalize }}</div>
+      </div>
+      {% endfor %}
+      <div class="card">
+        <div class="value">{{ high_count }}</div>
+        <div class="label">High-severity issues</div>
+      </div>
+    </div>
+    <p style="margin-top:1rem;color:#555;">{{ profile.summary_text }}</p>
+  </section>
+
+  <!-- Charts -->
+  {% if profile.generated_charts %}
+  <section>
+    <h2>Visualisations</h2>
+    <div class="charts">
+      {% for chart in profile.generated_charts %}
+      <img src="{{ chart }}" alt="Quality chart"/>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Column table -->
+  <section>
+    <h2>Column profiles</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Column</th><th>Type</th><th>Missing %</th>
+          <th>Completeness</th><th>Uniqueness</th><th>Validity</th><th>Consistency</th>
+          <th>Overall</th><th>Issues</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for col in profile.columns %}
+        {% set s = col.overall_score %}
+        <tr>
+          <td><strong>{{ col.col_name }}</strong></td>
+          <td>{{ col.inferred_type }}</td>
+          <td>{{ "%.1f" | format(col.pct_missing) }}%</td>
+          <td class="score-cell {% if col.completeness < 0.8 %}score-high{% elif col.completeness < 0.95 %}score-medium{% else %}score-good{% endif %}">{{ "%.2f" | format(col.completeness) }}</td>
+          <td class="score-cell {% if col.uniqueness < 0.7 %}score-high{% elif col.uniqueness < 0.9 %}score-medium{% else %}score-good{% endif %}">{{ "%.2f" | format(col.uniqueness) }}</td>
+          <td class="score-cell {% if col.validity < 0.8 %}score-high{% elif col.validity < 0.95 %}score-medium{% else %}score-good{% endif %}">{{ "%.2f" | format(col.validity) }}</td>
+          <td class="score-cell {% if col.consistency < 0.8 %}score-high{% elif col.consistency < 0.95 %}score-medium{% else %}score-good{% endif %}">{{ "%.2f" | format(col.consistency) }}</td>
+          <td class="score-cell {% if s < 0.8 %}score-high{% elif s < 0.9 %}score-medium{% else %}score-good{% endif %}"><strong>{{ "%.2f" | format(s) }}</strong></td>
+          <td>
+            {% for issue in col.issues %}
+              <span class="badge badge-{{ issue.severity }}">{{ issue.issue_type }}</span>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Issues detail -->
+  {% if profile.all_issues %}
+  <section>
+    <h2>Issues detail</h2>
+    {% for col in profile.columns %}
+      {% if col.issues %}
+        <details open>
+          <summary>{{ col.col_name }} ({{ col.issues | length }} issue{{ 's' if col.issues | length > 1 }})</summary>
+          {% for issue in col.issues %}
+          <div class="issue-block">
+            <span class="badge badge-{{ issue.severity }}">{{ issue.severity }}</span>
+            <strong style="margin-left:.5rem">{{ issue.issue_type }}</strong>
+            — {{ issue.affected_rows }} rows ({{ issue.pct_affected }}%)<br/>
+            <span style="color:#555">{{ issue.description }}</span><br/>
+            <em>Action: {{ issue.suggested_action }}</em>
+          </div>
+          {% endfor %}
+        </details>
+      {% endif %}
+    {% endfor %}
+  </section>
+  {% endif %}
+
+</main>
+<footer>
+  Generated by DQ Framework &nbsp;·&nbsp; University of Leeds MSc Project 2026
+</footer>
+</body>
+</html>
