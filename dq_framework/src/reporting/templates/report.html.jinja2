@@ -32,13 +32,21 @@
 </style>
 </head>
 <body>
-<header>
-  <h1>Data Quality Report: {{ profile.dataset_name }}</h1>
-  <p>{{ profile.run_timestamp.strftime('%Y-%m-%d %H:%M') }}
-     · {{ "{:,}".format(profile.n_rows) }} rows
-     · {{ profile.n_cols }} columns
-     · Overall score: <strong>{{ "%.1f%%" | format(profile.overall_score * 100) }}</strong>
-  </p>
+<header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+  <div>
+    <h1>Data Quality Report: {{ profile.dataset_name }}</h1>
+    <p>{{ profile.run_timestamp.strftime('%Y-%m-%d %H:%M') }}
+       · {{ "{:,}".format(profile.n_rows) }} rows
+       · {{ profile.n_cols }} columns
+       · Overall score: <strong>{{ "%.1f%%" | format(profile.overall_score * 100) }}</strong>
+    </p>
+  </div>
+  <a href="/download/{{ profile.dataset_name }}"
+     style="background:#fff; color:#1D9E75; padding:.7rem 1.5rem;
+            border-radius:8px; font-weight:600; text-decoration:none;
+            font-size:.9rem; white-space:nowrap;">
+     ⬇ Download Report
+  </a>
 </header>
 <main>
 

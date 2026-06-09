@@ -57,7 +57,13 @@ def result(name):
 @app.route("/outputs/reports/charts/<filename>")
 def charts(filename):
     return send_from_directory("outputs/reports/charts", filename)
-
+@app.route("/download/<name>")
+def download(name):
+    return send_from_directory(
+        "outputs/reports",
+        f"{name}_report.html",
+        as_attachment=True
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

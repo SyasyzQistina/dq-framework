@@ -56,18 +56,48 @@
   </div>
 
   <form action="/analyse" method="POST" enctype="multipart/form-data">
-    <div class="upload-area" onclick="document.getElementById('file').click()">
-      <input type="file" id="file" name="file" accept=".csv,.xlsx,.json"
-             onchange="document.getElementById('filename').textContent = this.files[0].name"/>
-      <label for="file">
-        <div class="upload-icon">📁</div>
-        <div class="upload-text">
-          <span>Click to upload</span> or drag and drop<br/>
-          CSV, Excel or JSON
-        </div>
-      </label>
+    <div class="upload-area" id="drop-area">
+    <input type="file" id="file" name="file" accept=".csv,.xlsx,.json" style="display:none"/>
+    <label for="file" style="cursor:pointer; display:block; width:100%;">
+      <div class="upload-icon">📁</div>
+      <div class="upload-text">
+        <span>Click to upload</span> or drag and drop<br/>
+        CSV, Excel or JSON
+      </div>
       <div id="filename"></div>
-    </div>
+    </label>
+  </div>
+
+  <script>
+    const input = document.getElementById('file');
+    const filename = document.getElementById('filename');
+    const dropArea = document.getElementById('drop-area');
+
+    input.addEventListener('change', () => {
+      if (input.files.length > 0) {
+        filename.textContent = '✅ ' + input.files[0].name;
+        dropArea.style.borderColor = '#1D9E75';
+        dropArea.style.background = '#f0fdf8';
+      }
+    });
+
+    // Drag and drop support
+    dropArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropArea.style.borderColor = '#1D9E75';
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        input.files = files;
+        filename.textContent = '✅ ' + files[0].name;
+        dropArea.style.borderColor = '#1D9E75';
+        dropArea.style.background = '#f0fdf8';
+      }
+    });
+  </script>
     <button type="submit">Analyse Dataset</button>
   </form>
 </div>
