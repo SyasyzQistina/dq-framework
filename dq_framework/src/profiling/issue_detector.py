@@ -22,6 +22,8 @@ def detect_issues(
 ) -> list[QualityIssue]:
     issues = []
     n = len(series)
+    if n == 0:
+        return issues
 
     # Missing values
     if completeness_score < 0.95:

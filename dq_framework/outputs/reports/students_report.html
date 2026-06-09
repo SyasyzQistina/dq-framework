@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Data Quality Report — students</title>
+<style>
+  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; margin:0; }
+  header { background:#1D9E75; color:#fff; padding:2rem; }
+  header h1 { font-size:1.6rem; margin:0; }
+  header p { margin:.4rem 0 0; opacity:.85; }
+  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+  h2 { font-size:1.1rem; border-bottom:2px solid #1D9E75; padding-bottom:.4rem; margin:2rem 0 1rem; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; }
+  .card { background:#f5f5f3; border-radius:10px; padding:1.2rem; text-align:center; }
+  .card .value { font-size:2rem; font-weight:700; color:#1D9E75; }
+  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
+  .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .charts img { width:100%; border-radius:8px; border:1px solid #eee; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:1rem; }
+  th { background:#1D9E75; color:#fff; padding:.5rem .8rem; text-align:left; }
+  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
+  tr:nth-child(even) td { background:#f5f5f3; }
+  .high   { color:#E24B4A; font-weight:600; }
+  .medium { color:#EF9F27; font-weight:600; }
+  .good   { color:#1D9E75; font-weight:600; }
+  .badge { display:inline-block; padding:.15rem .5rem; border-radius:999px;
+           font-size:.75rem; font-weight:600; color:#fff; margin:.1rem; }
+  .badge-high   { background:#E24B4A; }
+  .badge-medium { background:#EF9F27; }
+  .badge-low    { background:#1D9E75; }
+  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Data Quality Report: students</h1>
+  <p>2026-06-09 22:57
+     · 8 rows
+     · 5 columns
+     · Overall score: <strong>91.1%</strong>
+  </p>
+</header>
+<main>
+
+  <h2>Summary</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="value">91%</div>
+      <div class="label">Overall score</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">95%</div>
+      <div class="label">Completeness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">74%</div>
+      <div class="label">Uniqueness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Validity</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">95%</div>
+      <div class="label">Consistency</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">8</div>
+      <div class="label">Total issues</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem; color:#555;">Dataset 'students' — 8 rows × 5 columns. Overall score: 91.07%. 8 issues found (2 high, 6 medium). Weakest dimension: uniqueness (74.28%).</p>
+
+  
+  <h2>Visualisations</h2>
+  <div class="charts">
+    
+    <img src="charts/missingness_heatmap.png" alt="Quality chart"/>
+    
+    <img src="charts/dimension_radar.png" alt="Quality chart"/>
+    
+    <img src="charts/column_scores_bar.png" alt="Quality chart"/>
+    
+    <img src="charts/issue_severity.png" alt="Quality chart"/>
+    
+  </div>
+  
+
+  <h2>Column profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Column</th><th>Type</th><th>Missing %</th>
+        <th>Completeness</th><th>Uniqueness</th>
+        <th>Validity</th><th>Consistency</th>
+        <th>Score</th><th>Issues</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td><strong>name</strong></td>
+        <td>text</td>
+        <td>12.5%</td>
+        <td class="medium">0.88</td>
+        <td class="medium">0.86</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.93</strong></td>
+        <td>
+          
+          <span class="badge badge-medium">missing_values</span>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>age</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.88</td>
+        <td class="good">1.00</td>
+        <td class="high">0.75</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">inconsistency</span>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>email</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.88</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.97</strong></td>
+        <td>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>score</strong></td>
+        <td>numeric</td>
+        <td>12.5%</td>
+        <td class="medium">0.88</td>
+        <td class="medium">0.86</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.93</strong></td>
+        <td>
+          
+          <span class="badge badge-medium">missing_values</span>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>grade</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.25</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.81</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</main>
+<footer>Generated by DQ Framework · University of Leeds MSc Project 2026</footer>
+</body>
+</html>

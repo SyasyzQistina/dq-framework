@@ -63,7 +63,7 @@ def run(source: str) -> DatasetProfile:
             n_missing=int(series.isna().sum()),
             pct_missing=round(series.isna().mean() * 100, 2),
             n_unique=int(series.nunique()),
-            pct_unique=round(series.nunique() / len(series) * 100, 2),
+            pct_unique=round(series.nunique() / len(series) * 100, 2) if len(series) > 0 else 0.0,
             completeness=completeness_score,
             uniqueness=uniqueness_score,
             validity=validity_score,
