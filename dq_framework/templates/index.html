@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Quality Framework</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f5f5f3; min-height: 100vh;
+         display: flex; align-items: center; justify-content: center; }
+  .card { background: #fff; border-radius: 16px; padding: 3rem;
+          max-width: 520px; width: 100%; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .logo { background: #1D9E75; color: #fff; width: 56px; height: 56px;
+          border-radius: 14px; display: flex; align-items: center;
+          justify-content: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
+  h1 { font-size: 1.5rem; font-weight: 600; color: #111; margin-bottom: .5rem; }
+  p  { color: #666; font-size: .95rem; margin-bottom: 2rem; line-height: 1.6; }
+  .upload-area { border: 2px dashed #d0d0cc; border-radius: 10px;
+                 padding: 2rem; text-align: center; margin-bottom: 1.5rem;
+                 cursor: pointer; transition: border-color .2s; }
+  .upload-area:hover { border-color: #1D9E75; }
+  .upload-area input { display: none; }
+  .upload-area label { cursor: pointer; }
+  .upload-icon { font-size: 2.5rem; margin-bottom: .5rem; }
+  .upload-text { color: #555; font-size: .9rem; }
+  .upload-text span { color: #1D9E75; font-weight: 600; }
+  #filename { margin-top: .5rem; font-size: .85rem; color: #1D9E75; font-weight: 500; }
+  button { background: #1D9E75; color: #fff; border: none; border-radius: 8px;
+           padding: .85rem 2rem; font-size: 1rem; font-weight: 600;
+           width: 100%; cursor: pointer; transition: background .2s; }
+  button:hover { background: #0F6E56; }
+  .dims { display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: .5rem; margin-bottom: 2rem; }
+  .dim { background: #f0fdf8; border-radius: 8px; padding: .6rem;
+         text-align: center; font-size: .75rem; color: #0F6E56; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="card">
+    {% if error %}
+  <div style="background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;
+              padding:.75rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:.9rem;">
+    {{ error }}
+  </div>
+  {% endif %}
+  <div class="logo">📊</div>
+  <h1>Data Quality Framework</h1>
+  <p>Upload any CSV dataset to automatically assess its quality across
+     four dimensions and generate a visual report.</p>
+
+  <div class="dims">
+    <div class="dim">Completeness</div>
+    <div class="dim">Uniqueness</div>
+    <div class="dim">Validity</div>
+    <div class="dim">Consistency</div>
+  </div>
+
+  <form action="/analyse" method="POST" enctype="multipart/form-data">
+    <div class="upload-area" onclick="document.getElementById('file').click()">
+      <input type="file" id="file" name="file" accept=".csv,.xlsx,.json"
+             onchange="document.getElementById('filename').textContent = this.files[0].name"/>
+      <label for="file">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">
+          <span>Click to upload</span> or drag and drop<br/>
+          CSV, Excel or JSON
+        </div>
+      </label>
+      <div id="filename"></div>
+    </div>
+    <button type="submit">Analyse Dataset</button>
+  </form>
+</div>
+</body>
+</html>

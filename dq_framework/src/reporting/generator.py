@@ -18,7 +18,7 @@ def generate(profile: DatasetProfile, output_dir: str,
         chart_paths = generate_all(profile, str(charts_dir))
         # Store relative paths so HTML can find them in the browser
         profile.generated_charts = [
-            str(pathlib.Path(p).relative_to(out))
+            "/outputs/reports/charts/" + pathlib.Path(p).name
             for p in chart_paths
         ]
 
