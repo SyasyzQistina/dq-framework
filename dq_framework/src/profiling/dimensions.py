@@ -24,7 +24,8 @@ def validity(series: pd.Series, inferred_type: str) -> float:
         return 1.0
 
     if inferred_type == "numeric":
-        valid = pd.to_numeric(non_null, errors="coerce").notna().sum()
+        cleaned = non_null.astype(str).str.replace(",", "").str.strip().str.replace("-", "0")
+        valid = pd.to_numeric(cleaned, errors="coerce").notna().sum()
         return round(valid / len(non_null), 4)
 
     if inferred_type == "datetime":

@@ -26,7 +26,7 @@ def infer_column_type(series: pd.Series) -> str:
     n_unique = series.nunique()
     n_total = series.count()
     # Check for comma-formatted numbers like "103,812"
-    cleaned = sample.str.replace(",", "").str.strip()
+    cleaned = sample.str.replace(",", "").str.strip().str.replace("-", "0")
     numeric_like = pd.to_numeric(cleaned, errors="coerce").notna().mean()
     if numeric_like > 0.8:
         return "numeric"
