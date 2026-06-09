@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Data Quality Report — electricity_clean</title>
+<style>
+  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; margin:0; }
+  header { background:#1D9E75; color:#fff; padding:2rem; }
+  header h1 { font-size:1.6rem; margin:0; }
+  header p { margin:.4rem 0 0; opacity:.85; }
+  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+  h2 { font-size:1.1rem; border-bottom:2px solid #1D9E75; padding-bottom:.4rem; margin:2rem 0 1rem; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; }
+  .card { background:#f5f5f3; border-radius:10px; padding:1.2rem; text-align:center; }
+  .card .value { font-size:2rem; font-weight:700; color:#1D9E75; }
+  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
+  .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .charts img { width:100%; border-radius:8px; border:1px solid #eee; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:1rem; }
+  th { background:#1D9E75; color:#fff; padding:.5rem .8rem; text-align:left; }
+  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
+  tr:nth-child(even) td { background:#f5f5f3; }
+  .high   { color:#E24B4A; font-weight:600; }
+  .medium { color:#EF9F27; font-weight:600; }
+  .good   { color:#1D9E75; font-weight:600; }
+  .badge { display:inline-block; padding:.15rem .5rem; border-radius:999px;
+           font-size:.75rem; font-weight:600; color:#fff; margin:.1rem; }
+  .badge-high   { background:#E24B4A; }
+  .badge-medium { background:#EF9F27; }
+  .badge-low    { background:#1D9E75; }
+  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Data Quality Report: electricity_clean</h1>
+  <p>2026-06-09 22:26
+     · 2,914 rows
+     · 61 columns
+     · Overall score: <strong>89.5%</strong>
+  </p>
+</header>
+<main>
+
+  <h2>Summary</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="value">90%</div>
+      <div class="label">Overall score</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Completeness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">58%</div>
+      <div class="label">Uniqueness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Validity</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Consistency</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">60</div>
+      <div class="label">Total issues</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem; color:#555;">Dataset 'electricity_clean' — 2,914 rows × 61 columns. Overall score: 89.55%. 60 issues found (60 high, 0 medium). Weakest dimension: uniqueness (58.20%).</p>
+
+  
+  <h2>Visualisations</h2>
+  <div class="charts">
+    
+    <img src="charts/missingness_heatmap.png" alt="Quality chart"/>
+    
+    <img src="charts/dimension_radar.png" alt="Quality chart"/>
+    
+    <img src="charts/column_scores_bar.png" alt="Quality chart"/>
+    
+    <img src="charts/issue_severity.png" alt="Quality chart"/>
+    
+  </div>
+  
+
+  <h2>Column profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Column</th><th>Type</th><th>Missing %</th>
+        <th>Completeness</th><th>Uniqueness</th>
+        <th>Validity</th><th>Consistency</th>
+        <th>Score</th><th>Issues</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td><strong>Site</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>1.00</strong></td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.69</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.92</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.67</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.92</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.65</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.1</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.68</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.92</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.1</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.65</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.1</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.57</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.1</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.2</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.65</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.2</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.2</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.56</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.2</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.60</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.3</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.3</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.60</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.3</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.55</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.3</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.58</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.4</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.4</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.4</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.4</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.57</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.5</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.61</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.5</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.5</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.50</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.5</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.56</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.6</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.6</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.58</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.6</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.56</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.6</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.55</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.7</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.7</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.61</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.7</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.7</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.55</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.89</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.8</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.8</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.61</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.8</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.8</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.53</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.9</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.63</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.9</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.61</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.9</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.9</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.52</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.10</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.61</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.10</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.10</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.50</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.10</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.49</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.11</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.91</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.11</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.11</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.50</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.88</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.11</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.48</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.12</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.12</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.12</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.50</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.12</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.47</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.13</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.13</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.13</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.49</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.13</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.47</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kWh.14</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.62</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q1-3.14</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.59</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.90</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q4.14</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.49</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>kg CO2e.14</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.47</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="medium"><strong>0.87</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</main>
+<footer>Generated by DQ Framework · University of Leeds MSc Project 2026</footer>
+</body>
+</html>
