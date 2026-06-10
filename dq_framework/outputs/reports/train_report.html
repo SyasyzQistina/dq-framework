@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Data Quality Report — train</title>
+<style>
+  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; margin:0; }
+  header { background:#1D9E75; color:#fff; padding:2rem; }
+  header h1 { font-size:1.6rem; margin:0; }
+  header p { margin:.4rem 0 0; opacity:.85; }
+  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+  h2 { font-size:1.1rem; border-bottom:2px solid #1D9E75; padding-bottom:.4rem; margin:2rem 0 1rem; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; }
+  .card { background:#f5f5f3; border-radius:10px; padding:1.2rem; text-align:center; }
+  .card .value { font-size:2rem; font-weight:700; color:#1D9E75; }
+  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
+  .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .charts img { width:100%; border-radius:8px; border:1px solid #eee; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:1rem; }
+  th { background:#1D9E75; color:#fff; padding:.5rem .8rem; text-align:left; }
+  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
+  tr:nth-child(even) td { background:#f5f5f3; }
+  .high   { color:#E24B4A; font-weight:600; }
+  .medium { color:#EF9F27; font-weight:600; }
+  .good   { color:#1D9E75; font-weight:600; }
+  .badge { display:inline-block; padding:.15rem .5rem; border-radius:999px;
+           font-size:.75rem; font-weight:600; color:#fff; margin:.1rem; }
+  .badge-high   { background:#E24B4A; }
+  .badge-medium { background:#EF9F27; }
+  .badge-low    { background:#1D9E75; }
+  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+</style>
+</head>
+<body>
+<header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+  <div>
+    <h1>Data Quality Report: train</h1>
+    <p>2026-06-10 16:23
+       · 891 rows
+       · 12 columns
+       · Overall score: <strong>80.5%</strong>
+    </p>
+  </div>
+  <a href="/download/train"
+     style="background:#fff; color:#1D9E75; padding:.7rem 1.5rem;
+            border-radius:8px; font-weight:600; text-decoration:none;
+            font-size:.9rem; white-space:nowrap;">
+     ⬇ Download Report
+  </a>
+</header>
+<main>
+
+  <h2>Summary</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="value">80%</div>
+      <div class="label">Overall score</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">92%</div>
+      <div class="label">Completeness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">33%</div>
+      <div class="label">Uniqueness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Validity</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">97%</div>
+      <div class="label">Consistency</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">12</div>
+      <div class="label">Total issues</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem; color:#555;">Dataset 'train' — 891 rows × 12 columns. Overall score: 80.48%. 12 issues found (8 high, 4 medium). Weakest dimension: uniqueness (32.61%).</p>
+
+  
+  <h2>Visualisations</h2>
+  <div class="charts">
+    
+    <img src="/outputs/reports/charts/missingness_heatmap.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/dimension_radar.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/column_scores_bar.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/issue_severity.png" alt="Quality chart"/>
+    
+  </div>
+  
+
+  <h2>Column profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Column</th><th>Type</th><th>Missing %</th>
+        <th>Completeness</th><th>Uniqueness</th>
+        <th>Validity</th><th>Consistency</th>
+        <th>Score</th><th>Issues</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td><strong>PassengerId</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>1.00</strong></td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Survived</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.75</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Pclass</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.75</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Name</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>1.00</strong></td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Sex</strong></td>
+        <td>categorical</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.75</strong></td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Age</strong></td>
+        <td>numeric</td>
+        <td>19.9%</td>
+        <td class="medium">0.80</td>
+        <td class="high">0.12</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.73</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-medium">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>SibSp</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="good">0.99</td>
+        <td class="high"><strong>0.75</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Parch</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="high">0.76</td>
+        <td class="high"><strong>0.69</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-high">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Ticket</strong></td>
+        <td>text</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.76</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="good"><strong>0.94</strong></td>
+        <td>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Fare</strong></td>
+        <td>numeric</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.28</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.94</td>
+        <td class="medium"><strong>0.80</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Cabin</strong></td>
+        <td>text</td>
+        <td>77.1%</td>
+        <td class="high">0.23</td>
+        <td class="medium">0.72</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.74</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Embarked</strong></td>
+        <td>categorical</td>
+        <td>0.2%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.75</strong></td>
+        <td>
+          
+        </td>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</main>
+<footer>Generated by DQ Framework · University of Leeds MSc Project 2026</footer>
+</body>
+</html>
