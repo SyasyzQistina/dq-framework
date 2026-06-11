@@ -25,6 +25,11 @@ class ColumnProfile:
     uniqueness: float = 1.0
     validity: float = 1.0
     consistency: float = 1.0
+    top_values: dict[str, int] = field(default_factory=dict)
+    value_min: float | None = None
+    value_max: float | None = None
+    value_mean: float | None = None
+    value_std: float | None = None 
     issues: list[QualityIssue] = field(default_factory=list)
 
     @property

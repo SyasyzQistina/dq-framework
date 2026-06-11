@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Data Quality Report — 2025</title>
+<style>
+  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; margin:0; }
+  header { background:#1D9E75; color:#fff; padding:2rem; }
+  header h1 { font-size:1.6rem; margin:0; }
+  header p { margin:.4rem 0 0; opacity:.85; }
+  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+  h2 { font-size:1.1rem; border-bottom:2px solid #1D9E75; padding-bottom:.4rem; margin:2rem 0 1rem; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; }
+  .card { background:#f5f5f3; border-radius:10px; padding:1.2rem; text-align:center; }
+  .card .value { font-size:2rem; font-weight:700; color:#1D9E75; }
+  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
+  .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .charts img { width:100%; border-radius:8px; border:1px solid #eee; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:1rem; }
+  th { background:#1D9E75; color:#fff; padding:.5rem .8rem; text-align:left; }
+  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
+  tr:nth-child(even) td { background:#f5f5f3; }
+  .high   { color:#E24B4A; font-weight:600; }
+  .medium { color:#EF9F27; font-weight:600; }
+  .good   { color:#1D9E75; font-weight:600; }
+  .badge { display:inline-block; padding:.15rem .5rem; border-radius:999px;
+           font-size:.75rem; font-weight:600; color:#fff; margin:.1rem; }
+  .badge-high   { background:#E24B4A; }
+  .badge-medium { background:#EF9F27; }
+  .badge-low    { background:#1D9E75; }
+  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+</style>
+</head>
+<body>
+<header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+  <div>
+    <h1>Data Quality Report: 2025</h1>
+    <p>2026-06-10 16:34
+       · 5,073 rows
+       · 51 columns
+       · Overall score: <strong>66.0%</strong>
+    </p>
+  </div>
+  <a href="/download/2025"
+     style="background:#fff; color:#1D9E75; padding:.7rem 1.5rem;
+            border-radius:8px; font-weight:600; text-decoration:none;
+            font-size:.9rem; white-space:nowrap;">
+     ⬇ Download Report
+  </a>
+</header>
+<main>
+
+  <h2>Summary</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="value">66%</div>
+      <div class="label">Overall score</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">67%</div>
+      <div class="label">Completeness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">1%</div>
+      <div class="label">Uniqueness</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">100%</div>
+      <div class="label">Validity</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">96%</div>
+      <div class="label">Consistency</div>
+    </div>
+    
+    <div class="card">
+      <div class="value">79</div>
+      <div class="label">Total issues</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem; color:#555;">Dataset '2025' — 5,073 rows × 51 columns. Overall score: 65.98%. 79 issues found (66 high, 13 medium). Weakest dimension: uniqueness (0.77%).</p>
+
+  
+  <h2>Visualisations</h2>
+  <div class="charts">
+    
+    <img src="/outputs/reports/charts/missingness_heatmap.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/dimension_radar.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/column_scores_bar.png" alt="Quality chart"/>
+    
+    <img src="/outputs/reports/charts/issue_severity.png" alt="Quality chart"/>
+    
+  </div>
+  
+
+  <h2>Column profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Column</th><th>Type</th><th>Missing %</th>
+        <th>Completeness</th><th>Uniqueness</th>
+        <th>Validity</th><th>Consistency</th>
+        <th>Score</th><th>Issues</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td><strong>Q1. Do you work for Leeds City Council</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q5. Work Postcode</strong></td>
+        <td>categorical</td>
+        <td>0.0%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.03</td>
+        <td class="good">1.00</td>
+        <td class="high">0.58</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q6. Home Postcode</strong></td>
+        <td>text</td>
+        <td>18.4%</td>
+        <td class="medium">0.82</td>
+        <td class="high">0.11</td>
+        <td class="good">1.00</td>
+        <td class="high">0.60</td>
+        <td class="high"><strong>0.63</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-high">inconsistency</span>
+          
+          <span class="badge badge-medium">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q7. From home I</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.92</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q8. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.67</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q9. To (location)</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.95</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q10. Then I</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.87</td>
+        <td class="high"><strong>0.63</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q11. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.67</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q12. To (location)</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.84</td>
+        <td class="high"><strong>0.63</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q13. Then I</strong></td>
+        <td>categorical</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q14. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="good">0.98</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q15. To (location)</strong></td>
+        <td>categorical</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q16. Then I</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">0.98</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q17. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="good">0.97</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q18. To (location)</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">0.98</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q19. Then I</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">0.99</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q20. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.94</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q21. To (location)</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">0.99</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q22. Then I</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q23. For how many minutes</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.92</td>
+        <td class="high"><strong>0.64</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q24. To (location)</strong></td>
+        <td>numeric</td>
+        <td>34.8%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q25. What was the main mode of transport you used to travel to work today? (Please select the mode of transport used for the longest distance travelled)</strong></td>
+        <td>categorical</td>
+        <td>0.3%</td>
+        <td class="good">1.00</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.93</td>
+        <td class="high"><strong>0.73</strong></td>
+        <td>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q26. On Monday</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.93</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q27. On Tuesday</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q28. On Wednesday?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.94</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q29. On Thursday?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.01</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.94</td>
+        <td class="high"><strong>0.65</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q30. On Friday?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q31. On Saturday?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q32. On Sunday?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q33. How many days a week do you usually work?</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="high">0.78</td>
+        <td class="high"><strong>0.61</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-high">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q34. How many days a week do you commute to your workplace? (i.e. only days you will travel to work, not work from home)</strong></td>
+        <td>numeric</td>
+        <td>18.4%</td>
+        <td class="medium">0.82</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.70</strong></td>
+        <td>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+          <span class="badge badge-medium">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q35. If you own a car what fuel type does it use?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q36. If you own a petrol, diesel or hybrid vehicle what engine size does it have?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q37. At your usual workplace does your Employer provide you with Car/Van Parking?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q38. Where do you usually park your Car/Van when you drive to work?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="medium">0.89</td>
+        <td class="high"><strong>0.64</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-medium">inconsistency</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q39. How much do you pay for parking per day?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.02</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.67</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q40. If you no longer had access to car parking at your usual place of work, what alternatives would you consider? (Please rank each alternative by how likely you think you would be to switch to that method of travel from 1 low likelihood to 5 high likelihood)</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 a</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 b</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 c</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 d</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 e</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 f</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 g</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 h</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 i</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41 j</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q40 k</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q41. How would you describe your gender?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q42. What is your age group?</strong></td>
+        <td>numeric</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">0.98</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+          <span class="badge badge-high">duplicate_values</span>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td><strong>Q43. What is your employment status?</strong></td>
+        <td>categorical</td>
+        <td>34.7%</td>
+        <td class="high">0.65</td>
+        <td class="high">0.00</td>
+        <td class="good">1.00</td>
+        <td class="good">1.00</td>
+        <td class="high"><strong>0.66</strong></td>
+        <td>
+          
+          <span class="badge badge-high">missing_values</span>
+          
+        </td>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</main>
+<footer>Generated by DQ Framework · University of Leeds MSc Project 2026</footer>
+</body>
+</html>
