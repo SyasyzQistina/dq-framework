@@ -29,7 +29,7 @@ class ColumnProfile:
     value_min: float | None = None
     value_max: float | None = None
     value_mean: float | None = None
-    value_std: float | None = None 
+    value_std: float | None = None
     issues: list[QualityIssue] = field(default_factory=list)
 
     @property
@@ -46,7 +46,7 @@ class DatasetProfile:
     source_path: str
     n_rows: int
     n_cols: int
-    run_timestamp: datetime = field(default_factory=datetime.utcnow)
+    run_timestamp: datetime = field(default_factory=datetime.now)
     dimension_scores: dict[str, float] = field(default_factory=dict)
     columns: list[ColumnProfile] = field(default_factory=list)
     generated_charts: list[str] = field(default_factory=list)
@@ -63,3 +63,6 @@ class DatasetProfile:
     @property
     def all_issues(self) -> list[QualityIssue]:
         return [i for col in self.columns for i in col.issues]
+
+    def get_column(self, name: str) -> ColumnProfile | None:
+        return next((c for c in self.columns if c.col_name == name), None)

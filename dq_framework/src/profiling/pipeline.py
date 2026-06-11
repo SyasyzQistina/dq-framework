@@ -38,8 +38,19 @@ def run(source: str) -> DatasetProfile:
 
         # Descriptive stats
         top_values = {}
+        value_min = value_max = value_mean = value_std = None
+
         if inferred_type == "numeric":
-            numeric = pd.to_numeric(series.dropna(), errors="coerce").dropna()
+            cleaned = (series.dropna().astype(str)
+                       .str.replace(",", "")
+                       .str.strip()
+                       .str.replace("-", "0"))
+            numeric = pd.to_numeric(cleaned, errors="coerce").dropna()
+            if len(numeric) > 0:
+                value_min  = float(numeric.min())
+                value_max  = float(numeric.max())
+                value_mean = float(numeric.mean())
+                value_std  = float(numeric.std()) if len(numeric) > 1 else 0.0
         else:
             top_values = (
                 series.dropna().astype(str)
@@ -68,6 +79,11 @@ def run(source: str) -> DatasetProfile:
             uniqueness=uniqueness_score,
             validity=validity_score,
             consistency=consistency_score,
+            top_values=top_values,
+            value_min=value_min,
+            value_max=value_max,
+            value_mean=value_mean,
+            value_std=value_std,
             issues=sorted(
                 issues,
                 key=lambda i: {"high": 0, "medium": 1, "low": 2}[i.severity]
@@ -79,9 +95,9 @@ def run(source: str) -> DatasetProfile:
     dimensions = ["completeness", "uniqueness", "validity", "consistency"]
     for d in dimensions:
         scores = [getattr(c, d) for c in profile.columns]
-        profile.dimension_scores[d] = round(sum(scores) / len(scores), 4)
+        profile.dimension_scores[d] = round(sum(scores) / len(scores), 4) if scores else 0.0
 
-    high = sum(1 for i in profile.all_issues if i.severity == "high")
+    high   = sum(1 for i in profile.all_issues if i.severity == "high")
     medium = sum(1 for i in profile.all_issues if i.severity == "medium")
     weakest = min(profile.dimension_scores, key=profile.dimension_scores.get)
 

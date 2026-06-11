@@ -3,102 +3,181 @@ import pathlib
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import numpy as np
-
 from src.models import DatasetProfile
 
+# ── Global style ────────────────────────────────────────────────────────────
+TEAL   = "#1D9E75"
+AMBER  = "#EF9F27"
+RED    = "#E24B4A"
+GREY   = "#F5F5F3"
+DARK   = "#2C2C2A"
+MID    = "#888780"
 
-def _save(fig: plt.Figure, output_dir: pathlib.Path, filename: str) -> str:
+CHART_W = 10   # every chart the same width (inches)
+CHART_H = 4.5  # every chart the same height
+
+plt.rcParams.update({
+    "font.family":       "DejaVu Sans",
+    "font.size":         10,
+    "axes.titlesize":    12,
+    "axes.titleweight":  "bold",
+    "axes.titlepad":     12,
+    "axes.labelsize":    10,
+    "axes.spines.top":   False,
+    "axes.spines.right": False,
+    "axes.grid":         True,
+    "axes.grid.axis":    "x",
+    "grid.color":        "#EEEEEE",
+    "grid.linewidth":    0.6,
+    "xtick.labelsize":   9,
+    "ytick.labelsize":   9,
+    "figure.facecolor":  "white",
+    "axes.facecolor":    "white",
+})
+
+
+def _score_color(score: float) -> str:
+    if score >= 0.95: return TEAL
+    if score >= 0.80: return AMBER
+    return RED
+
+
+def _save(fig, output_dir: pathlib.Path, filename: str) -> str:
     output_dir.mkdir(parents=True, exist_ok=True)
     path = output_dir / filename
-    fig.savefig(path, dpi=150, bbox_inches="tight")
+    fig.savefig(path, dpi=150, bbox_inches="tight",
+                facecolor="white", edgecolor="none")
     plt.close(fig)
     return str(path)
 
 
+# ── 1. Missingness heatmap ───────────────────────────────────────────────────
 def missingness_heatmap(profile: DatasetProfile, output_dir: str) -> str:
-    """Heatmap showing % missing values per column."""
-    out = pathlib.Path(output_dir)
+    out  = pathlib.Path(output_dir)
     cols = [c.col_name for c in profile.columns]
     pct  = [c.pct_missing for c in profile.columns]
+    n    = len(cols)
 
-    fig, ax = plt.subplots(figsize=(10, max(3, len(cols) * 0.4)))
+    fig, ax = plt.subplots(figsize=(CHART_W, max(CHART_H, n * 0.38)))
     data = np.array(pct).reshape(-1, 1)
-    im = ax.imshow(data, aspect="auto", cmap="RdYlGn_r", vmin=0, vmax=100)
-    ax.set_yticks(range(len(cols)))
-    ax.set_yticklabels(cols, fontsize=8)
+    im   = ax.imshow(data, aspect="auto", cmap="RdYlGn_r", vmin=0, vmax=100)
+
+    ax.set_yticks(range(n))
+    ax.set_yticklabels(cols, fontsize=9)
     ax.set_xticks([])
-    ax.set_title("Missing values per column (%)", fontsize=12)
-    plt.colorbar(im, ax=ax, label="% missing")
-    return _save(fig, out, "missingness_heatmap.png")
+    ax.set_title("1. Missing Values per Column (%)", loc="left")
+    ax.set_xlabel("← Complete          Missing →", fontsize=9, color=MID)
+
+    cbar = plt.colorbar(im, ax=ax, fraction=0.02, pad=0.02)
+    cbar.set_label("% missing", fontsize=9)
+    cbar.ax.tick_params(labelsize=8)
+
+    # Annotate each bar
+    for i, p in enumerate(pct):
+        label = f"{p:.1f}%" if p > 0 else "0%"
+        color = "white" if p > 50 else DARK
+        ax.text(0, i, f"  {label}", va="center", fontsize=8, color=color)
+
+    fig.tight_layout()
+    return _save(fig, out, "1_missingness_heatmap.png")
 
 
+# ── 2. Dimension radar ───────────────────────────────────────────────────────
 def dimension_radar(profile: DatasetProfile, output_dir: str) -> str:
-    """Radar chart of the four quality dimension scores."""
-    out = pathlib.Path(output_dir)
+    out    = pathlib.Path(output_dir)
     dims   = list(profile.dimension_scores.keys())
     scores = list(profile.dimension_scores.values())
 
-    angles = np.linspace(0, 2 * np.pi, len(dims), endpoint=False).tolist()
+    angles      = np.linspace(0, 2 * np.pi, len(dims), endpoint=False).tolist()
     scores_plot = scores + scores[:1]
-    angles      = angles + angles[:1]
+    angles_plot = angles + angles[:1]
 
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.plot(angles, scores_plot, "o-", linewidth=2, color="#1D9E75")
-    ax.fill(angles, scores_plot, alpha=0.2, color="#1D9E75")
-    ax.set_thetagrids(np.degrees(angles[:-1]), dims, fontsize=10)
+    fig, ax = plt.subplots(figsize=(CHART_W, CHART_H + 1),
+                           subplot_kw=dict(polar=True))
+
+    ax.plot(angles_plot, scores_plot, "o-", linewidth=2,
+            color=TEAL, markersize=6)
+    ax.fill(angles_plot, scores_plot, alpha=0.18, color=TEAL)
+
+    ax.set_thetagrids(np.degrees(angles), dims, fontsize=10)
     ax.set_ylim(0, 1)
-    ax.set_yticks([0.25, 0.5, 0.75, 1.0])
-    ax.set_yticklabels(["0.25", "0.50", "0.75", "1.00"], fontsize=7)
-    ax.set_title(f"Quality dimensions — {profile.dataset_name}", fontsize=12, pad=20)
-    return _save(fig, out, "dimension_radar.png")
+    ax.set_yticks([0.25, 0.50, 0.75, 1.00])
+    ax.set_yticklabels(["0.25", "0.50", "0.75", "1.00"], fontsize=8, color=MID)
+    ax.set_rlabel_position(45)
+    ax.grid(color="#DDDDDD", linewidth=0.6)
+    ax.set_title("2. Quality Dimensions Overview", loc="center", pad=20)
+
+    # Score labels on each point
+    for angle, score in zip(angles, scores):
+        ax.text(angle, score + 0.07, f"{score:.2f}",
+                ha="center", va="center", fontsize=8,
+                fontweight="bold", color=TEAL)
+
+    fig.tight_layout()
+    return _save(fig, out, "2_dimension_radar.png")
 
 
+# ── 3. Column scores bar ─────────────────────────────────────────────────────
 def column_scores_bar(profile: DatasetProfile, output_dir: str) -> str:
-    """Horizontal bar chart of overall score per column."""
-    out = pathlib.Path(output_dir)
+    out    = pathlib.Path(output_dir)
     cols   = [c.col_name for c in profile.columns]
     scores = [c.overall_score for c in profile.columns]
+    colors = [_score_color(s) for s in scores]
+    n      = len(cols)
 
-    cmap    = plt.cm.RdYlGn
-    colours = [cmap(s) for s in scores]
-
-    fig, ax = plt.subplots(figsize=(10, max(3, len(cols) * 0.45)))
-    bars = ax.barh(cols, scores, color=colours, edgecolor="white", linewidth=0.5)
-    ax.set_xlim(0, 1)
+    fig, ax = plt.subplots(figsize=(CHART_W, max(CHART_H, n * 0.42)))
+    bars = ax.barh(cols, scores, color=colors, height=0.6,
+                   edgecolor="white", linewidth=0.5)
+    ax.set_xlim(0, 1.1)
     ax.set_xlabel("Overall quality score")
-    ax.set_title("Per-column quality scores", fontsize=12)
-    ax.axvline(0.8, color="#555", linestyle="--", linewidth=0.8, label="0.80 threshold")
-    ax.legend(fontsize=8)
+    ax.set_title("3. Per-Column Quality Scores", loc="left")
+    ax.axvline(0.8, color="#AAAAAA", linestyle="--",
+               linewidth=1, label="0.80 threshold")
+    ax.axvline(0.95, color="#CCCCCC", linestyle=":",
+               linewidth=1, label="0.95 threshold")
+    ax.legend(fontsize=8, loc="lower right")
+
     for bar, score in zip(bars, scores):
-        ax.text(min(score + 0.01, 0.97), bar.get_y() + bar.get_height() / 2,
-                f"{score:.2f}", va="center", fontsize=8)
-    return _save(fig, out, "column_scores_bar.png")
+        ax.text(score + 0.01, bar.get_y() + bar.get_height() / 2,
+                f"{score:.2f}", va="center", fontsize=8, color=DARK)
+
+    fig.tight_layout()
+    return _save(fig, out, "3_column_scores_bar.png")
 
 
+# ── 4. Issue severity ────────────────────────────────────────────────────────
 def issue_severity_summary(profile: DatasetProfile, output_dir: str) -> str:
-    """Bar chart of issue counts by severity."""
     out = pathlib.Path(output_dir)
     from collections import Counter
     counts     = Counter(i.severity for i in profile.all_issues)
     severities = ["high", "medium", "low"]
-    colours    = ["#E24B4A", "#EF9F27", "#639922"]
+    labels     = ["High", "Medium", "Low"]
+    colours    = [RED, AMBER, TEAL]
     values     = [counts.get(s, 0) for s in severities]
 
-    fig, ax = plt.subplots(figsize=(6, 3))
-    bars = ax.bar(severities, values, color=colours, width=0.5)
+    fig, ax = plt.subplots(figsize=(CHART_W, CHART_H))
+    bars = ax.bar(labels, values, color=colours, width=0.45,
+                  edgecolor="white", linewidth=0.5)
     ax.set_ylabel("Number of issues")
-    ax.set_title("Issues by severity", fontsize=12)
+    ax.set_title("4. Issues by Severity", loc="left")
+    ax.set_ylim(0, max(values) * 1.3 + 1)
+    ax.grid(axis="y")
+    ax.grid(axis="x", visible=False)
+
     for bar, v in zip(bars, values):
-        if v:
-            ax.text(bar.get_x() + bar.get_width() / 2,
-                    bar.get_height() + 0.1, str(v), ha="center", fontsize=10)
-    return _save(fig, out, "issue_severity.png")
+        ax.text(bar.get_x() + bar.get_width() / 2,
+                bar.get_height() + 0.1, str(v),
+                ha="center", fontsize=11, fontweight="bold", color=DARK)
+
+    fig.tight_layout()
+    return _save(fig, out, "4_issue_severity.png")
 
 
+# ── 5. Distribution histograms ───────────────────────────────────────────────
 def distribution_histograms(profile: DatasetProfile, output_dir: str) -> str:
-    """Histogram for each numeric column using real stats."""
-    out = pathlib.Path(output_dir)
+    out          = pathlib.Path(output_dir)
     numeric_cols = [c for c in profile.columns if c.inferred_type == "numeric"]
     if not numeric_cols:
         return None
@@ -108,72 +187,85 @@ def distribution_histograms(profile: DatasetProfile, output_dir: str) -> str:
     rows_n = (n + cols_n - 1) // cols_n
 
     fig, axes = plt.subplots(rows_n, cols_n,
-                              figsize=(5 * cols_n, 3.5 * rows_n))
+                              figsize=(CHART_W, CHART_H * rows_n))
     axes = np.array(axes).flatten() if n > 1 else [axes]
 
     for i, col in enumerate(numeric_cols):
-        ax = axes[i]
-        color = "#1D9E75" if col.consistency >= 0.95 else \
-                "#EF9F27" if col.consistency >= 0.80 else "#E24B4A"
+        ax    = axes[i]
+        color = _score_color(col.consistency)
 
         if col.value_mean is not None and col.value_std is not None:
             mean = col.value_mean
             std  = max(col.value_std, 0.001)
-            data = np.random.normal(mean, std, 300)
+            data = np.random.normal(mean, std, 400)
             if col.value_min is not None:
                 data = np.clip(data, col.value_min, col.value_max)
-            ax.hist(data, bins=15, color=color, alpha=0.75, edgecolor="white")
-            ax.axvline(mean, color="#333", linestyle="--",
-                       linewidth=0.8, label=f"mean={mean:.1f}")
+            ax.hist(data, bins=18, color=color, alpha=0.75,
+                    edgecolor="white", linewidth=0.4)
+            ax.axvline(mean, color=DARK, linestyle="--",
+                       linewidth=1, label=f"mean = {mean:.1f}")
             ax.legend(fontsize=7)
         else:
-            ax.text(0.5, 0.5, "No numeric data",
-                    transform=ax.transAxes, ha="center", va="center",
-                    fontsize=9, color="#888")
+            ax.text(0.5, 0.5, "No data", transform=ax.transAxes,
+                    ha="center", va="center", fontsize=9, color=MID)
 
-        ax.set_title(col.col_name[:20], fontsize=9, pad=4)
+        ax.set_title(col.col_name, fontsize=10, fontweight="bold")
         ax.set_xlabel("Value", fontsize=8)
         ax.set_ylabel("Frequency", fontsize=8)
-        ax.tick_params(labelsize=7)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
 
     for j in range(i + 1, len(axes)):
         axes[j].set_visible(False)
 
-    fig.suptitle("Numeric Column Distributions", fontsize=12)
+    fig.suptitle("5. Numeric Column Distributions",
+                 fontsize=12, fontweight="bold", x=0, ha="left", y=1.01)
     fig.tight_layout()
-    return _save(fig, out, "distributions.png")
+    return _save(fig, out, "5_distributions.png")
 
 
+# ── 6. Outlier / consistency bar ─────────────────────────────────────────────
 def boxplots(profile: DatasetProfile, output_dir: str) -> str:
-    """Consistency score per numeric column — highlights outlier-prone columns."""
-    out = pathlib.Path(output_dir)
+    out          = pathlib.Path(output_dir)
     numeric_cols = [c for c in profile.columns if c.inferred_type == "numeric"]
     if not numeric_cols:
         return None
 
-    names  = [c.col_name[:14] for c in numeric_cols]
+    names  = [c.col_name for c in numeric_cols]
     scores = [c.consistency for c in numeric_cols]
-    colors = ["#1D9E75" if s >= 0.95 else "#EF9F27" if s >= 0.80 else "#E24B4A"
-              for s in scores]
+    colors = [_score_color(s) for s in scores]
 
-    fig, ax = plt.subplots(figsize=(max(6, len(numeric_cols) * 0.8), 4))
-    ax.bar(names, scores, color=colors, edgecolor="white", linewidth=0.5)
-    ax.set_ylim(0, 1)
-    ax.set_ylabel("Consistency score")
-    ax.set_title("Outlier detection — consistency per numeric column", fontsize=11)
-    ax.axhline(0.95, color="#555", linestyle="--", linewidth=0.8,
-               label="0.95 threshold")
+    fig, ax = plt.subplots(figsize=(CHART_W, CHART_H))
+    bars = ax.bar(names, scores, color=colors, width=0.5,
+                  edgecolor="white", linewidth=0.5)
+    ax.set_ylim(0, 1.1)
+    ax.set_ylabel("Consistency score (1.0 = no outliers)")
+    ax.set_title("6. Outlier Detection — Consistency per Numeric Column",
+                 loc="left")
+    ax.axhline(0.95, color="#AAAAAA", linestyle="--",
+               linewidth=1, label="0.95 good threshold")
+    ax.axhline(0.80, color="#CCCCCC", linestyle=":",
+               linewidth=1, label="0.80 warning threshold")
     ax.legend(fontsize=8)
-    plt.xticks(rotation=45, ha="right", fontsize=8)
+    ax.grid(axis="y")
+    ax.grid(axis="x", visible=False)
+    plt.xticks(rotation=30, ha="right", fontsize=9)
+
+    for bar, score in zip(bars, scores):
+        ax.text(bar.get_x() + bar.get_width() / 2,
+                score + 0.02, f"{score:.2f}",
+                ha="center", fontsize=9, fontweight="bold", color=DARK)
+
     fig.tight_layout()
-    return _save(fig, out, "boxplots.png")
+    return _save(fig, out, "6_boxplots.png")
 
 
+# ── 7. Frequency plots ───────────────────────────────────────────────────────
 def frequency_plots(profile: DatasetProfile, output_dir: str) -> str:
-    """Frequency bar charts for categorical and text columns."""
-    out = pathlib.Path(output_dir)
+    out      = pathlib.Path(output_dir)
     cat_cols = [c for c in profile.columns
-                if c.inferred_type in ("categorical", "text") and c.top_values]
+                if c.inferred_type in ("categorical", "text")
+                and c.top_values]
     if not cat_cols:
         return None
 
@@ -183,29 +275,39 @@ def frequency_plots(profile: DatasetProfile, output_dir: str) -> str:
     rows_n = (n + cols_n - 1) // cols_n
 
     fig, axes = plt.subplots(rows_n, cols_n,
-                              figsize=(5 * cols_n, 3.5 * rows_n))
+                              figsize=(CHART_W, CHART_H * rows_n))
     axes = np.array(axes).flatten() if n > 1 else [axes]
 
     for i, col in enumerate(subset):
         ax     = axes[i]
         items  = list(col.top_values.items())[:8]
-        labels = [str(k)[:15] for k, v in items]
-        values = [v for k, v in items]
-        ax.barh(labels, values, color="#1D9E75", alpha=0.8, edgecolor="white")
-        ax.set_title(col.col_name[:20], fontsize=9, pad=4)
+        labels = [str(k)[:18] for k, _ in items]
+        values = [v for _, v in items]
+
+        bars = ax.barh(labels, values, color=TEAL, alpha=0.8,
+                       edgecolor="white", linewidth=0.4)
+        ax.set_title(col.col_name, fontsize=10, fontweight="bold")
         ax.set_xlabel("Count", fontsize=8)
-        ax.tick_params(labelsize=7)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.grid(axis="x")
+        ax.grid(axis="y", visible=False)
+
+        for bar, v in zip(bars, values):
+            ax.text(v + 0.1, bar.get_y() + bar.get_height() / 2,
+                    str(v), va="center", fontsize=8, color=DARK)
 
     for j in range(i + 1, len(axes)):
         axes[j].set_visible(False)
 
-    fig.suptitle("Categorical column frequencies", fontsize=12)
+    fig.suptitle("7. Categorical Column Frequencies",
+                 fontsize=12, fontweight="bold", x=0, ha="left", y=1.01)
     fig.tight_layout()
-    return _save(fig, out, "frequency_plots.png")
+    return _save(fig, out, "7_frequency_plots.png")
 
 
+# ── Main ─────────────────────────────────────────────────────────────────────
 def generate_all(profile: DatasetProfile, output_dir: str) -> list[str]:
-    """Generate all charts and return their file paths."""
     charts = [
         missingness_heatmap(profile, output_dir),
         dimension_radar(profile, output_dir),
