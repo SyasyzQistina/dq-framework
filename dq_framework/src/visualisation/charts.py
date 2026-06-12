@@ -174,56 +174,6 @@ def issue_severity_summary(profile: DatasetProfile, output_dir: str) -> str:
     fig.tight_layout()
     return _save(fig, out, "4_issue_severity.png")
 
-
-# ── 5. Distribution histograms ───────────────────────────────────────────────
-def distribution_histograms(profile: DatasetProfile, output_dir: str) -> str:
-    out          = pathlib.Path(output_dir)
-    numeric_cols = [c for c in profile.columns if c.inferred_type == "numeric"]
-    if not numeric_cols:
-        return None
-
-    n      = len(numeric_cols)
-    cols_n = min(3, n)
-    rows_n = (n + cols_n - 1) // cols_n
-
-    fig, axes = plt.subplots(rows_n, cols_n,
-                              figsize=(CHART_W, CHART_H * rows_n))
-    axes = np.array(axes).flatten() if n > 1 else [axes]
-
-    for i, col in enumerate(numeric_cols):
-        ax    = axes[i]
-        color = _score_color(col.consistency)
-
-        if col.value_mean is not None and col.value_std is not None:
-            mean = col.value_mean
-            std  = max(col.value_std, 0.001)
-            data = np.random.normal(mean, std, 400)
-            if col.value_min is not None:
-                data = np.clip(data, col.value_min, col.value_max)
-            ax.hist(data, bins=18, color=color, alpha=0.75,
-                    edgecolor="white", linewidth=0.4)
-            ax.axvline(mean, color=DARK, linestyle="--",
-                       linewidth=1, label=f"mean = {mean:.1f}")
-            ax.legend(fontsize=7)
-        else:
-            ax.text(0.5, 0.5, "No data", transform=ax.transAxes,
-                    ha="center", va="center", fontsize=9, color=MID)
-
-        ax.set_title(col.col_name, fontsize=10, fontweight="bold")
-        ax.set_xlabel("Value", fontsize=8)
-        ax.set_ylabel("Frequency", fontsize=8)
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-
-    for j in range(i + 1, len(axes)):
-        axes[j].set_visible(False)
-
-    fig.suptitle("5. Numeric Column Distributions",
-                 fontsize=12, fontweight="bold", x=0, ha="left", y=1.01)
-    fig.tight_layout()
-    return _save(fig, out, "5_distributions.png")
-
-
 # ── 6. Outlier / consistency bar ─────────────────────────────────────────────
 def boxplots(profile: DatasetProfile, output_dir: str) -> str:
     out          = pathlib.Path(output_dir)
@@ -313,7 +263,6 @@ def generate_all(profile: DatasetProfile, output_dir: str) -> list[str]:
         dimension_radar(profile, output_dir),
         column_scores_bar(profile, output_dir),
         issue_severity_summary(profile, output_dir),
-        distribution_histograms(profile, output_dir),
         boxplots(profile, output_dir),
         frequency_plots(profile, output_dir),
     ]

@@ -38,8 +38,8 @@ def detect_issues(
             suggested_action="Impute or remove rows depending on missingness level.",
         ))
 
-    # Duplicates
-    if uniqueness_score < 0.90 and inferred_type not in ("categorical", "boolean"):
+    # Duplicates — only flag for non-numeric columns
+    if uniqueness_score < 0.90 and inferred_type not in ("categorical", "boolean", "numeric"):
         n_dupes = int(series.duplicated(keep=False).sum())
         issues.append(QualityIssue(
             issue_type="duplicate_values",

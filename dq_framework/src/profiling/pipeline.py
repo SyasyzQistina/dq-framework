@@ -15,7 +15,11 @@ def run(source: str) -> DatasetProfile:
     # STEP 1: Understand the dataset
     df = load(source)
     schema = detect_schema(df)
-    dataset_name = pathlib.Path(source).stem
+    raw_name = pathlib.Path(source).stem
+    dataset_name = raw_name.replace("_", " ").replace("-", " ").strip()
+    # Clean up multiple spaces
+    import re
+    dataset_name = re.sub(r'\s+', ' ', dataset_name)
 
     profile = DatasetProfile(
         dataset_name=dataset_name,

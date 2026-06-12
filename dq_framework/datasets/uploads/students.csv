@@ -1,0 +1,9 @@
+name,age,email,score,grade
+Alice,25,a@test.com,88.5,A
+Bob,300,bob@test.com,92.1,A
+Carol,22,not-an-email,78.3,B
+Alice,25,a@test.com,88.5,A
+Eve,33,e@test.com,,B
+Frank,-5,f@test.com,95.2,A
+,28,g@test.com,81.4,B
+Henry,31,h@test.com,79.9,B
