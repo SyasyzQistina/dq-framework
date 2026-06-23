@@ -5,56 +5,112 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Data Quality Report — {{ profile.dataset_name }}</title>
 <style>
-  body { font-family: system-ui, sans-serif; font-size:14px; color:#222; background:#fff; margin:0; }
-  header { background:#1D9E75; color:#fff; padding:2rem; }
-  header h1 { font-size:1.6rem; margin:0; }
-  header p { margin:.4rem 0 0; opacity:.85; }
-  main { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
-  h2 { font-size:1.1rem; border-bottom:2px solid #1D9E75; padding-bottom:.4rem; margin:2rem 0 1rem; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; }
-  .card { background:#f5f5f3; border-radius:10px; padding:1.2rem; text-align:center; }
-  .card .value { font-size:2rem; font-weight:700; color:#1D9E75; }
-  .card .value.warn  { color:#EF9F27; }
-  .card .value.alert { color:#E24B4A; }
-  .card .label { font-size:.8rem; color:#666; margin-top:.2rem; }
-  .charts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem; }
-  .chart-card { background:#fff; border:1px solid #eee; border-radius:10px;
-                padding:.8rem; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .chart-card img { width:100%; border-radius:6px; display:block; }
-  .chart-card.solo { grid-column:1/-1; max-width:420px; justify-self:center; }
-  @media(max-width:700px) { .charts-grid { grid-template-columns:1fr; } }
-  .search-wrap { margin-bottom:.8rem; display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
-  .search-wrap input[type=text] { flex:1; min-width:180px; padding:.45rem .8rem;
-    border:1px solid #ddd; border-radius:8px; font-size:.88rem; outline:none; }
-  .search-wrap input[type=text]:focus { border-color:#1D9E75; }
-  .search-wrap label { font-size:.85rem; color:#666; display:flex;
-                       align-items:center; gap:.3rem; cursor:pointer; white-space:nowrap; }
-  .search-wrap input[type=checkbox] { width:14px; height:14px; cursor:pointer; }
-  #row-count { font-size:.8rem; color:#aaa; }
-  table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:.5rem; }
-  th { background:#1D9E75; color:#fff; padding:.5rem .8rem; text-align:left; }
-  td { padding:.45rem .8rem; border-bottom:1px solid #eee; }
-  tr:nth-child(even) td { background:#f5f5f3; }
-  tr:hover td { background:#f0fdf8; }
-  tr.hidden { display:none; }
-  .high   { color:#E24B4A; font-weight:600; }
-  .medium { color:#EF9F27; font-weight:600; }
-  .good   { color:#1D9E75; font-weight:600; }
-  .badge { display:inline-block; padding:.15rem .5rem; border-radius:999px;
-           font-size:.75rem; font-weight:600; color:#fff; margin:.1rem; }
-  .badge-high   { background:#E24B4A; }
-  .badge-medium { background:#EF9F27; }
-  .badge-low    { background:#1D9E75; }
-  .issue-block  { background:#fafaf8; border-radius:0 8px 8px 0;
-                  padding:.65rem .9rem; margin-bottom:.45rem; }
-  .issue-desc   { color:#555; font-size:.86rem; margin-top:.25rem; }
-  .issue-action { font-size:.83rem; color:#888; font-style:italic; margin-top:.15rem; }
-  footer { text-align:center; color:#999; font-size:.8rem; padding:2rem; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px;
+         color: #111827; background: #fff; line-height: 1.5; }
+  header { background: #1a56db; padding: 1.25rem 2rem;
+           display: flex; justify-content: space-between;
+           align-items: center; flex-wrap: wrap; gap: 1rem; }
+  header h1 { font-size: 1.2rem; font-weight: 500; color: #fff; margin: 0; }
+  header p  { font-size: .82rem; color: rgba(255,255,255,.75); margin-top: .2rem; }
+  .download-btn { background: #fff; color: #1a56db; padding: .5rem 1.2rem;
+                  border-radius: 6px; font-weight: 500; text-decoration: none;
+                  font-size: .85rem; white-space: nowrap; }
+  main { max-width: 1100px; margin: 2rem auto; padding: 0 2rem; }
+  .section { margin-bottom: 2.5rem; }
+  .section-title { font-size: .7rem; font-weight: 500; color: #6b7280;
+                   text-transform: uppercase; letter-spacing: .08em;
+                   border-bottom: 1px solid #f3f4f6; padding-bottom: .5rem;
+                   margin-bottom: 1rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+           gap: .75rem; margin-bottom: 1rem; }
+  .card { background: #f9fafb; border: 0.5px solid #e5e7eb;
+          border-radius: 8px; padding: .9rem .75rem; text-align: center; }
+  .card .value { font-size: 1.6rem; font-weight: 500; color: #1a56db; line-height: 1; }
+  .card .value.warn  { color: #d97706; }
+  .card .value.alert { color: #dc2626; }
+  .card .label { font-size: .68rem; color: #9ca3af; margin-top: .25rem;
+                 text-transform: uppercase; letter-spacing: .05em; }
+  .legend { display: flex; gap: 1.2rem; margin-bottom: 1rem;
+            flex-wrap: wrap; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: .35rem;
+                 font-size: .78rem; color: #6b7280; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-good { background: #1a56db; }
+  .dot-warn { background: #d97706; }
+  .dot-bad  { background: #dc2626; }
+  .summary-text { font-size: .95rem; color: #4b5563; background: #eff6ff;
+                  border-left: 3px solid #1a56db; padding: .8rem 1rem;
+                  border-radius: 0 6px 6px 0; line-height: 1.6; }
+  .charts-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .chart-card { background: #f9fafb; border: 0.5px solid #e5e7eb;
+                border-radius: 8px; padding: .75rem; }
+  .chart-card img { width: 100%; height: 220px;
+                    object-fit: contain; border-radius: 4px; display: block; }
+  .chart-card.solo { grid-column: 1/-1; max-width: 400px; justify-self: center; }
+  @media(max-width:700px) { .charts-grid { grid-template-columns: 1fr; } }
+  .search-wrap { display: flex; align-items: center; gap: .6rem;
+                 flex-wrap: wrap; margin-bottom: .75rem; }
+  .search-wrap input[type=text] { flex: 1; min-width: 180px; padding: .4rem .75rem;
+    border: 0.5px solid #e5e7eb; border-radius: 6px; font-size: .85rem;
+    outline: none; background: #f9fafb; color: #111827; }
+  .search-wrap input[type=text]:focus { border-color: #1a56db; background: #fff; }
+  .search-wrap label { font-size: .82rem; color: #6b7280;
+                       display: flex; align-items: center; gap: .3rem;
+                       cursor: pointer; white-space: nowrap; }
+  .search-wrap input[type=checkbox] { width: 13px; height: 13px; cursor: pointer; }
+  #row-count { font-size: .78rem; color: #9ca3af; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { background: #1a56db; color: #fff; padding: .5rem .75rem;
+       text-align: left; font-weight: 500; white-space: nowrap;
+       font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+       cursor: pointer; user-select: none; }
+  th:hover { background: #1e40af; }
+  th::after           { content: " ↕"; opacity: .3; font-size: .7rem; }
+  th:last-child::after { content: "" !important; opacity: 0; }
+  th.sort-asc::after  { content: " ↑"; opacity: 1; }
+  th.sort-desc::after { content: " ↓"; opacity: 1; }
+  td { padding: .42rem .75rem; border-bottom: 0.5px solid #f3f4f6; }
+  tr:nth-child(even) td { background: #f9fafb; }
+  tr:hover td { background: #eff6ff; }
+  tr.hidden { display: none; }
+  .good   { color: #1a56db; font-weight: 500; }
+  .medium { color: #d97706; font-weight: 500; }
+  .bad    { color: #dc2626; font-weight: 500; }
+  .missing-high { background: #fef2f2 !important; color: #dc2626; font-weight: 500; }
+  .missing-mid  { background: #fffbeb !important; color: #d97706; font-weight: 500; }
+  .badge { display: inline-block; padding: .1rem .45rem; border-radius: 4px;
+           font-size: .7rem; font-weight: 500; margin: .1rem; border: 0.5px solid; }
+  .badge-high   { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+  .badge-medium { background: #fffbeb; color: #d97706; border-color: #fcd34d; }
+  .badge-low    { background: #eff6ff; color: #1a56db; border-color: #93c5fd; }
+  .issue-block { border-radius: 0 6px 6px 0; padding: .6rem .9rem; margin-bottom: .4rem; }
+  .issue-block.high   { background: #fef2f2; border-left: 3px solid #dc2626; }
+  .issue-block.medium { background: #fffbeb; border-left: 3px solid #d97706; }
+  .issue-block.low    { background: #eff6ff; border-left: 3px solid #1a56db; }
+  .issue-desc   { color: #4b5563; font-size: .82rem; margin-top: .2rem; }
+  .issue-action { font-size: .78rem; color: #9ca3af; font-style: italic; margin-top: .15rem; }
+  footer { text-align: center; color: #d1d5db; font-size: .75rem;
+           padding: 2rem 1rem; border-top: 0.5px solid #f3f4f6; margin-top: 2rem; }
+  .issue-cell { position: relative; display: inline-block; }
+  .issue-tooltip { display: none; position: absolute; bottom: calc(100% + 6px);
+                   left: 0; background: #fff; border: 0.5px solid #e5e7eb;
+                   border-radius: 8px; padding: 8px 10px; min-width: 220px;
+                   z-index: 99; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                   white-space: normal; }
+  .issue-cell:hover .issue-tooltip { display: block; }
+  .tooltip-label { font-size: 10px; font-weight: 500; color: #9ca3af;
+                   text-transform: uppercase; letter-spacing: .05em;
+                   margin-bottom: 5px; }
+  .tooltip-row { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+  .tooltip-row:last-child { margin-bottom: 0; }
+  .tooltip-text { font-size: 12px; color: #111827; }
 </style>
 </head>
 <body>
 
-<header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+<header>
   <div>
     <h1>Data Quality Report: {{ profile.dataset_name }}</h1>
     <p>{{ profile.run_timestamp.strftime('%Y-%m-%d %H:%M') }}
@@ -64,150 +120,196 @@
        <strong>{{ "%.1f%%" | format(profile.overall_score * 100) }}</strong>
     </p>
   </div>
-  <a href="/download/{{ profile.dataset_name }}"
-     style="background:#fff; color:#1D9E75; padding:.7rem 1.5rem;
-            border-radius:8px; font-weight:600; text-decoration:none;
-            font-size:.9rem; white-space:nowrap;">
-     ⬇ Download Report
+  <a href="/download/{{ profile.dataset_name }}" class="download-btn">
+    ⬇ Download Report
   </a>
 </header>
 
 <main>
 
-  <h2>Summary</h2>
-  <div class="cards">
-    <div class="card">
-      <div class="value {% if profile.overall_score < 0.8 %}alert{% elif profile.overall_score < 0.9 %}warn{% endif %}">
-        {{ "%.0f%%" | format(profile.overall_score * 100) }}</div>
-      <div class="label">Overall score</div>
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <div class="cards">
+      <div class="card">
+        <div class="value {% if profile.overall_score < 0.8 %}alert{% elif profile.overall_score < 0.9 %}warn{% endif %}">
+          {{ "%.0f%%" | format(profile.overall_score * 100) }}</div>
+        <div class="label">Overall</div>
+      </div>
+      {% for dim, score in profile.dimension_scores.items() %}
+      <div class="card">
+        <div class="value {% if score < 0.8 %}alert{% elif score < 0.9 %}warn{% endif %}">
+          {{ "%.0f%%" | format(score * 100) }}</div>
+        <div class="label">{{ dim | capitalize }}</div>
+      </div>
+      {% endfor %}
+      <div class="card">
+        <div class="value {% if profile.all_issues|length > 10 %}alert{% elif profile.all_issues|length > 3 %}warn{% endif %}">
+          {{ profile.all_issues | length }}</div>
+        <div class="label">Issues</div>
+      </div>
     </div>
-    {% for dim, score in profile.dimension_scores.items() %}
-    <div class="card">
-      <div class="value {% if score < 0.8 %}alert{% elif score < 0.9 %}warn{% endif %}">
-        {{ "%.0f%%" | format(score * 100) }}</div>
-      <div class="label">{{ dim | capitalize }}</div>
+
+    <div class="legend">
+      <span style="font-size:.78rem;color:#9ca3af;">Colour key:</span>
+      <div class="legend-item"><div class="legend-dot dot-good"></div>Good (≥ 0.95)</div>
+      <div class="legend-item"><div class="legend-dot dot-warn"></div>Warning (≥ 0.80)</div>
+      <div class="legend-item"><div class="legend-dot dot-bad"></div>Poor (&lt; 0.80)</div>
     </div>
-    {% endfor %}
-    <div class="card">
-      <div class="value {% if profile.all_issues|length > 10 %}alert{% elif profile.all_issues|length > 3 %}warn{% endif %}">
-        {{ profile.all_issues | length }}</div>
-      <div class="label">Total issues</div>
-    </div>
+
+    <p class="summary-text">{{ profile.summary_text }}</p>
   </div>
-  <p style="margin-top:1rem; color:#555; line-height:1.6;">{{ profile.summary_text }}</p>
 
   {% if profile.generated_charts %}
-  <h2>Visualisations</h2>
-  <div class="charts-grid">
-    {% for chart in profile.generated_charts %}
-    <div class="chart-card {% if loop.last and (profile.generated_charts|length % 3 == 1) %}solo{% endif %}">
-      <img src="{{ chart }}" alt="Quality chart {{ loop.index }}"/>
-    </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <h2>Column Profiles</h2>
-  <div class="search-wrap">
-    <input type="text" id="col-search" placeholder="🔍  Search column name..."
-           oninput="filterTable()"/>
-    <label>
-      <input type="checkbox" id="issues-only" onchange="filterTable()"/>
-      Show issues only
-    </label>
-    <span id="row-count"></span>
-  </div>
-
-  <table id="col-table">
-    <thead>
-      <tr>
-        <th>Column</th><th>Type</th><th>Missing %</th>
-        <th>Completeness</th><th>Uniqueness</th>
-        <th>Validity</th><th>Consistency</th>
-        <th>Score</th><th>Issues</th>
-      </tr>
-    </thead>
-    <tbody id="col-tbody">
-    {% for col in profile.columns %}
-      <tr data-name="{{ col.col_name | lower }}"
-          data-has-issues="{{ '1' if col.issues else '0' }}">
-        <td><strong>{{ col.col_name }}</strong></td>
-        <td>{{ col.inferred_type }}</td>
-        <td>{{ "%.1f" | format(col.pct_missing) }}%</td>
-        <td class="{{ 'high' if col.completeness < 0.8 else 'medium' if col.completeness < 0.95 else 'good' }}">{{ "%.2f" | format(col.completeness) }}</td>
-        <td class="{{ 'high' if col.uniqueness < 0.7 else 'medium' if col.uniqueness < 0.9 else 'good' }}">{{ "%.2f" | format(col.uniqueness) }}</td>
-        <td class="{{ 'high' if col.validity < 0.8 else 'medium' if col.validity < 0.95 else 'good' }}">{{ "%.2f" | format(col.validity) }}</td>
-        <td class="{{ 'high' if col.consistency < 0.8 else 'medium' if col.consistency < 0.95 else 'good' }}">{{ "%.2f" | format(col.consistency) }}</td>
-        <td class="{{ 'high' if col.overall_score < 0.8 else 'medium' if col.overall_score < 0.9 else 'good' }}">
-          <strong>{{ "%.2f" | format(col.overall_score) }}</strong></td>
-        <td>
-          {% for issue in col.issues %}
-          <span class="badge badge-{{ issue.severity }}">{{ issue.issue_type }}</span>
-          {% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-  {% if profile.all_issues %}
-  <h2>Issues Detail</h2>
-  <p style="color:#888;font-size:.85rem;margin-bottom:1rem;">
-    Showing high and medium severity issues only.
-  </p>
-  {% for col in profile.columns %}
-    {% set serious = col.issues | selectattr('severity', 'in', ['high', 'medium']) | list %}
-    {% if serious %}
-    <div style="margin-bottom:1.1rem;">
-      <div style="font-weight:600;margin-bottom:.4rem;">
-        {{ col.col_name }}
-        <span style="font-weight:400;color:#aaa;font-size:.82rem;">
-          — {{ serious|length }} issue{{ 's' if serious|length > 1 }}
-        </span>
-      </div>
-      {% for issue in serious %}
-      <div class="issue-block" style="border-left:3px solid {{ '#E24B4A' if issue.severity == 'high' else '#EF9F27' }};">
-        <span class="badge badge-{{ issue.severity }}">{{ issue.severity }}</span>
-        <strong style="margin-left:.35rem;">{{ issue.issue_type }}</strong>
-        <span style="color:#888;font-size:.82rem;">
-          — {{ issue.affected_rows }} rows ({{ issue.pct_affected }}%)
-        </span>
-        <p class="issue-desc">{{ issue.description }}</p>
-        <p class="issue-action">Action: {{ issue.suggested_action }}</p>
+  <div class="section">
+    <div class="section-title">Visualisations</div>
+    <div class="charts-grid">
+      {% for chart in profile.generated_charts %}
+      <div class="chart-card {% if loop.last and (profile.generated_charts|length % 3 == 1) %}solo{% endif %}">
+        <img src="{{ chart }}" alt="Quality chart {{ loop.index }}"/>
       </div>
       {% endfor %}
     </div>
-    {% endif %}
-  {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="section">
+    <div class="section-title">Column Profiles</div>
+    <div class="search-wrap">
+      <input type="text" id="col-search" placeholder="🔍  Search column name..."
+             oninput="filterTable()"/>
+      <label>
+        <input type="checkbox" id="issues-only" onchange="filterTable()"/>
+        Show issues only
+      </label>
+      <span id="row-count"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="col-table">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Column</th>
+            <th onclick="sortTable(1)">Type</th>
+            <th onclick="sortTable(2)">Missing %</th>
+            <th onclick="sortTable(3)">Completeness</th>
+            <th onclick="sortTable(4)">Uniqueness</th>
+            <th onclick="sortTable(5)">Validity</th>
+            <th onclick="sortTable(6)">Consistency</th>
+            <th onclick="sortTable(7)">Score</th>
+            <th style="cursor:default;">Issues</th>
+          </tr>
+        </thead>
+        <tbody id="col-tbody">
+        {% for col in profile.columns %}
+          <tr data-name="{{ col.col_name | lower }}"
+              data-has-issues="{{ '1' if col.issues else '0' }}">
+            <td><strong>{{ col.col_name }}</strong></td>
+            <td style="color:#9ca3af;">{{ col.inferred_type }}</td>
+            <td class="{% if col.pct_missing > 20 %}missing-high{% elif col.pct_missing > 5 %}missing-mid{% endif %}">
+              {{ "%.1f" | format(col.pct_missing) }}%</td>
+            <td class="{{ 'bad' if col.completeness < 0.8 else 'medium' if col.completeness < 0.95 else 'good' }}">
+              {{ "%.2f" | format(col.completeness) }}</td>
+            <td class="{{ 'bad' if col.uniqueness < 0.7 else 'medium' if col.uniqueness < 0.9 else 'good' }}">
+              {{ "%.2f" | format(col.uniqueness) }}</td>
+            <td class="{{ 'bad' if col.validity < 0.8 else 'medium' if col.validity < 0.95 else 'good' }}">
+              {{ "%.2f" | format(col.validity) }}</td>
+            <td class="{{ 'bad' if col.consistency < 0.8 else 'medium' if col.consistency < 0.95 else 'good' }}">
+              {{ "%.2f" | format(col.consistency) }}</td>
+            <td class="{{ 'bad' if col.overall_score < 0.8 else 'medium' if col.overall_score < 0.9 else 'good' }}">
+              <strong>{{ "%.2f" | format(col.overall_score) }}</strong></td>
+            <td>
+              {% if col.issues %}
+              <span class="issue-count" title="{% for issue in col.issues %}{{ issue.severity }}: {{ issue.issue_type }} ({{ issue.pct_affected }}%){% if not loop.last %} | {% endif %}{% endfor %}">
+                {% set high_count = col.issues | selectattr('severity', 'equalto', 'high') | list | length %}
+                {% set med_count  = col.issues | selectattr('severity', 'equalto', 'medium') | list | length %}
+                {% if high_count %}<span class="badge badge-high">{{ high_count }} high</span>{% endif %}
+                {% if med_count  %}<span class="badge badge-medium">{{ med_count }} medium</span>{% endif %}
+              </span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if profile.all_issues %}
+  <div class="section">
+    <div class="section-title">Issues Detail</div>
+    <p style="font-size:.82rem;color:#9ca3af;margin-bottom:1rem;">
+      Showing high and medium severity issues only.
+    </p>
+    {% for col in profile.columns %}
+      {% set serious = col.issues | selectattr('severity', 'in', ['high', 'medium']) | list %}
+      {% if serious %}
+      <div style="margin-bottom:1.2rem;">
+        <div style="font-weight:500;font-size:.9rem;margin-bottom:.4rem;color:#111827;">
+          {{ col.col_name }}
+          <span style="font-weight:400;color:#9ca3af;font-size:.78rem;">
+            — {{ serious|length }} issue{{ 's' if serious|length > 1 }}
+          </span>
+        </div>
+        {% for issue in serious %}
+        <div class="issue-block {{ issue.severity }}">
+          <span class="badge badge-{{ issue.severity }}">{{ issue.severity }}</span>
+          <strong style="margin-left:.3rem;font-size:.85rem;">{{ issue.issue_type }}</strong>
+          <span style="color:#9ca3af;font-size:.78rem;">
+            — {{ issue.affected_rows }} rows ({{ issue.pct_affected }}%)
+          </span>
+          <p class="issue-desc">{{ issue.description }}</p>
+          <p class="issue-action">Action: {{ issue.suggested_action }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
   {% endif %}
 
 </main>
 
-<footer>Generated by DQ Framework &nbsp;·&nbsp; University of Leeds MSc Project 2026</footer>
+<footer>
+  Generated by DQ Framework &nbsp;·&nbsp; University of Leeds MSc Project 2026
+</footer>
 
 <script>
+  let sortCol = -1, sortDir = 1;
+
   function filterTable() {
     const search     = document.getElementById('col-search').value.toLowerCase();
     const issuesOnly = document.getElementById('issues-only').checked;
     const rows       = document.querySelectorAll('#col-tbody tr');
     let visible      = 0;
-
     rows.forEach(row => {
       const name      = row.getAttribute('data-name') || '';
       const hasIssues = row.getAttribute('data-has-issues') === '1';
-      const matchName  = name.includes(search);
-      const matchIssue = !issuesOnly || hasIssues;
-
-      if (matchName && matchIssue) {
-        row.classList.remove('hidden');
-        visible++;
-      } else {
-        row.classList.add('hidden');
-      }
+      const show = name.includes(search) && (!issuesOnly || hasIssues);
+      row.classList.toggle('hidden', !show);
+      if (show) visible++;
     });
-
     document.getElementById('row-count').textContent =
       visible + ' of ' + rows.length + ' columns';
+  }
+
+  function sortTable(col) {
+    const tbody = document.getElementById('col-tbody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+    const ths   = document.querySelectorAll('#col-table thead th');
+    ths.forEach((th, i) => {
+      th.classList.remove('sort-asc', 'sort-desc');
+      if (i === col) th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+    });
+    if (sortCol === col) sortDir *= -1; else sortDir = 1;
+    sortCol = col;
+    rows.sort((a, b) => {
+      const aVal = a.cells[col]?.textContent.trim() || '';
+      const bVal = b.cells[col]?.textContent.trim() || '';
+      const aNum = parseFloat(aVal);
+      const bNum = parseFloat(bVal);
+      if (!isNaN(aNum) && !isNaN(bNum)) return (aNum - bNum) * sortDir;
+      return aVal.localeCompare(bVal) * sortDir;
+    });
+    rows.forEach(row => tbody.appendChild(row));
   }
 
   filterTable();
