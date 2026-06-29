@@ -8,12 +8,12 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px;
          color: #111827; background: #fff; line-height: 1.5; }
-  header { background: #1a56db; padding: 1.25rem 2rem;
+  header { background: #0f62fe; padding: 1.25rem 2rem;
            display: flex; justify-content: space-between;
            align-items: center; flex-wrap: wrap; gap: 1rem; }
   header h1 { font-size: 1.2rem; font-weight: 500; color: #fff; margin: 0; }
   header p  { font-size: .82rem; color: rgba(255,255,255,.75); margin-top: .2rem; }
-  .download-btn { background: #fff; color: #1a56db; padding: .5rem 1.2rem;
+  .download-btn { background: #fff; color: #0f62fe; padding: .5rem 1.2rem;
                   border-radius: 6px; font-weight: 500; text-decoration: none;
                   font-size: .85rem; white-space: nowrap; }
   main { max-width: 1100px; margin: 2rem auto; padding: 0 2rem; }
@@ -26,9 +26,9 @@
            gap: .75rem; margin-bottom: 1rem; }
   .card { background: #f9fafb; border: 0.5px solid #e5e7eb;
           border-radius: 8px; padding: .9rem .75rem; text-align: center; }
-  .card .value { font-size: 1.6rem; font-weight: 500; color: #1a56db; line-height: 1; }
-  .card .value.warn  { color: #d97706; }
-  .card .value.alert { color: #dc2626; }
+  .card .value { font-size: 1.6rem; font-weight: 500; color: #0f62fe; line-height: 1; }
+  .card .value.warn  { color: #b45309; }
+  .card .value.alert { color: #da1e28; }
   .card .label { font-size: .68rem; color: #9ca3af; margin-top: .25rem;
                  text-transform: uppercase; letter-spacing: .05em; }
   .legend { display: flex; gap: 1.2rem; margin-bottom: 1rem;
@@ -36,11 +36,11 @@
   .legend-item { display: flex; align-items: center; gap: .35rem;
                  font-size: .78rem; color: #6b7280; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .dot-good { background: #1a56db; }
-  .dot-warn { background: #d97706; }
-  .dot-bad  { background: #dc2626; }
-  .summary-text { font-size: .95rem; color: #4b5563; background: #eff6ff;
-                  border-left: 3px solid #1a56db; padding: .8rem 1rem;
+  .dot-good { background: #0f62fe; }
+  .dot-warn { background: #e07b00; }
+  .dot-bad  { background: #da1e28; }
+  .summary-text { font-size: .95rem; color: #1a3a6b; background: #edf4ff;
+                  border-left: 3px solid #0f62fe; padding: .8rem 1rem;
                   border-radius: 0 6px 6px 0; line-height: 1.6; }
   .charts-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
   .chart-card { background: #f9fafb; border: 0.5px solid #e5e7eb;
@@ -54,7 +54,7 @@
   .search-wrap input[type=text] { flex: 1; min-width: 180px; padding: .4rem .75rem;
     border: 0.5px solid #e5e7eb; border-radius: 6px; font-size: .85rem;
     outline: none; background: #f9fafb; color: #111827; }
-  .search-wrap input[type=text]:focus { border-color: #1a56db; background: #fff; }
+  .search-wrap input[type=text]:focus { border-color: #0f62fe; background: #fff; }
   .search-wrap label { font-size: .82rem; color: #6b7280;
                        display: flex; align-items: center; gap: .3rem;
                        cursor: pointer; white-space: nowrap; }
@@ -62,50 +62,53 @@
   #row-count { font-size: .78rem; color: #9ca3af; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: .82rem; }
-  th { background: #1a56db; color: #fff; padding: .5rem .75rem;
+  th { background: #0f62fe; color: #fff; padding: .5rem .75rem;
        text-align: left; font-weight: 500; white-space: nowrap;
        font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
        cursor: pointer; user-select: none; }
-  th:hover { background: #1e40af; }
-  th::after           { content: " ↕"; opacity: .3; font-size: .7rem; }
-  th:last-child::after { content: "" !important; opacity: 0; }
+  th:hover { background: #0353e9; }
+  th::after { content: " ↕"; opacity: .3; font-size: .7rem; }
   th.sort-asc::after  { content: " ↑"; opacity: 1; }
   th.sort-desc::after { content: " ↓"; opacity: 1; }
+  th:last-child::after { content: "" !important; opacity: 0; }
+  th:last-child { cursor: default; }
   td { padding: .42rem .75rem; border-bottom: 0.5px solid #f3f4f6; }
   tr:nth-child(even) td { background: #f9fafb; }
-  tr:hover td { background: #eff6ff; }
+  tr:hover td { background: #edf4ff; }
   tr.hidden { display: none; }
-  .good   { color: #1a56db; font-weight: 500; }
-  .medium { color: #d97706; font-weight: 500; }
-  .bad    { color: #dc2626; font-weight: 500; }
-  .missing-high { background: #fef2f2 !important; color: #dc2626; font-weight: 500; }
-  .missing-mid  { background: #fffbeb !important; color: #d97706; font-weight: 500; }
+  .good   { color: #0f62fe; font-weight: 500; }
+  .medium { color: #b45309; font-weight: 500; }
+  .bad    { color: #da1e28; font-weight: 500; }
+  .missing-high { background: #fff1f1 !important; color: #da1e28; font-weight: 500; }
+  .missing-mid  { background: #fff7ed !important; color: #b45309; font-weight: 500; }
   .badge { display: inline-block; padding: .1rem .45rem; border-radius: 4px;
            font-size: .7rem; font-weight: 500; margin: .1rem; border: 0.5px solid; }
-  .badge-high   { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
-  .badge-medium { background: #fffbeb; color: #d97706; border-color: #fcd34d; }
-  .badge-low    { background: #eff6ff; color: #1a56db; border-color: #93c5fd; }
-  .issue-block { border-radius: 0 6px 6px 0; padding: .6rem .9rem; margin-bottom: .4rem; }
-  .issue-block.high   { background: #fef2f2; border-left: 3px solid #dc2626; }
-  .issue-block.medium { background: #fffbeb; border-left: 3px solid #d97706; }
-  .issue-block.low    { background: #eff6ff; border-left: 3px solid #1a56db; }
-  .issue-desc   { color: #4b5563; font-size: .82rem; margin-top: .2rem; }
-  .issue-action { font-size: .78rem; color: #9ca3af; font-style: italic; margin-top: .15rem; }
-  footer { text-align: center; color: #d1d5db; font-size: .75rem;
-           padding: 2rem 1rem; border-top: 0.5px solid #f3f4f6; margin-top: 2rem; }
+  .badge-high   { background: #fff1f1; color: #da1e28; border-color: #fca5a5; }
+  .badge-medium { background: #fff7ed; color: #b45309; border-color: #e07b00; }
+  .badge-low    { background: #edf4ff; color: #0f62fe; border-color: #93c5fd; }
   .issue-cell { position: relative; display: inline-block; }
   .issue-tooltip { display: none; position: absolute; bottom: calc(100% + 6px);
                    left: 0; background: #fff; border: 0.5px solid #e5e7eb;
-                   border-radius: 8px; padding: 8px 10px; min-width: 220px;
+                   border-radius: 8px; padding: 8px 10px; min-width: 240px;
                    z-index: 99; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
                    white-space: normal; }
   .issue-cell:hover .issue-tooltip { display: block; }
   .tooltip-label { font-size: 10px; font-weight: 500; color: #9ca3af;
-                   text-transform: uppercase; letter-spacing: .05em;
-                   margin-bottom: 5px; }
+                   text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
   .tooltip-row { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
   .tooltip-row:last-child { margin-bottom: 0; }
   .tooltip-text { font-size: 12px; color: #111827; }
+  .issue-block { border-radius: 0 6px 6px 0; padding: .6rem .9rem; margin-bottom: .4rem; }
+  .issue-block.high   { background: #fff1f1; border-left: 3px solid #da1e28; }
+  .issue-block.medium { background: #fff7ed; border-left: 3px solid #e07b00; }
+  .issue-block.low    { background: #edf4ff; border-left: 3px solid #0f62fe; }
+  .issue-desc   { color: #4b5563; font-size: .82rem; margin-top: .2rem; }
+  .issue-action { font-size: .78rem; color: #9ca3af; font-style: italic; margin-top: .15rem; }
+  .info-note { background: #f0f9ff; border-left: 3px solid #0369a1;
+               padding: .6rem 1rem; border-radius: 0 6px 6px 0;
+               font-size: .82rem; color: #0c4a6e; margin-bottom: 1rem; }
+  footer { text-align: center; color: #d1d5db; font-size: .75rem;
+           padding: 2rem 1rem; border-top: 0.5px solid #f3f4f6; margin-top: 2rem; }
 </style>
 </head>
 <body>
@@ -148,14 +151,13 @@
         <div class="label">Issues</div>
       </div>
     </div>
-
     <div class="legend">
       <span style="font-size:.78rem;color:#9ca3af;">Colour key:</span>
       <div class="legend-item"><div class="legend-dot dot-good"></div>Good (≥ 0.95)</div>
       <div class="legend-item"><div class="legend-dot dot-warn"></div>Warning (≥ 0.80)</div>
       <div class="legend-item"><div class="legend-dot dot-bad"></div>Poor (&lt; 0.80)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#888780;"></div>Informational</div>
     </div>
-
     <p class="summary-text">{{ profile.summary_text }}</p>
   </div>
 
@@ -195,7 +197,7 @@
             <th onclick="sortTable(5)">Validity</th>
             <th onclick="sortTable(6)">Consistency</th>
             <th onclick="sortTable(7)">Score</th>
-            <th style="cursor:default;">Issues</th>
+            <th>Issues</th>
           </tr>
         </thead>
         <tbody id="col-tbody">
@@ -218,12 +220,25 @@
               <strong>{{ "%.2f" | format(col.overall_score) }}</strong></td>
             <td>
               {% if col.issues %}
-              <span class="issue-count" title="{% for issue in col.issues %}{{ issue.severity }}: {{ issue.issue_type }} ({{ issue.pct_affected }}%){% if not loop.last %} | {% endif %}{% endfor %}">
-                {% set high_count = col.issues | selectattr('severity', 'equalto', 'high') | list | length %}
-                {% set med_count  = col.issues | selectattr('severity', 'equalto', 'medium') | list | length %}
-                {% if high_count %}<span class="badge badge-high">{{ high_count }} high</span>{% endif %}
-                {% if med_count  %}<span class="badge badge-medium">{{ med_count }} medium</span>{% endif %}
-              </span>
+              <div class="issue-cell">
+                <div style="display:inline-flex;gap:4px;cursor:help;">
+                  {% set high_c = col.issues | selectattr('severity','equalto','high')   | list | length %}
+                  {% set med_c  = col.issues | selectattr('severity','equalto','medium') | list | length %}
+                  {% if high_c %}<span class="badge badge-high">{{ high_c }} high</span>{% endif %}
+                  {% if med_c  %}<span class="badge badge-medium">{{ med_c }} med</span>{% endif %}
+                </div>
+                <div class="issue-tooltip">
+                  <div class="tooltip-label">Issues</div>
+                  {% for issue in col.issues %}
+                  <div class="tooltip-row">
+                    <span class="badge badge-{{ issue.severity }}">{{ issue.severity }}</span>
+                    <span class="tooltip-text">{{ issue.issue_type }} — {{ issue.pct_affected }}% of rows</span>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% else %}
+              <span style="color:#d1d5db;font-size:.8rem;">—</span>
               {% endif %}
             </td>
           </tr>
@@ -236,6 +251,12 @@
   {% if profile.all_issues %}
   <div class="section">
     <div class="section-title">Issues Detail</div>
+    <div class="info-note">
+      &#8505; Some duplicate values in columns such as Postcode or date fields
+      may reflect expected patterns in this dataset type rather than genuine
+      quality defects. Please review flagged issues in context before
+      taking remediation action.
+    </div>
     <p style="font-size:.82rem;color:#9ca3af;margin-bottom:1rem;">
       Showing high and medium severity issues only.
     </p>

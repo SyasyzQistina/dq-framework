@@ -3,11 +3,9 @@ import pandas as pd
 from src.models import QualityIssue
 
 
-def _severity(score: float, high_t: float, med_t: float) -> str:
-    if score < high_t:
-        return "high"
-    if score < med_t:
-        return "medium"
+def _severity(score: float) -> str:
+    if score < 0.80: return "high"
+    if score < 0.95: return "medium"
     return "low"
 
 
@@ -20,60 +18,92 @@ def detect_issues(
     validity_score: float,
     consistency_score: float,
 ) -> list[QualityIssue]:
+
     issues = []
     n = len(series)
     if n == 0:
         return issues
 
-    # Missing values
+    # ── Completeness ──────────────────────────────────────────────
     if completeness_score < 0.95:
         n_missing = int(series.isna().sum())
         issues.append(QualityIssue(
             issue_type="missing_values",
-            severity=_severity(completeness_score, 0.80, 0.95),
+            severity=_severity(completeness_score),
             affected_rows=n_missing,
             pct_affected=round(n_missing / n * 100, 2),
-            description=f"'{col_name}' has {n_missing} missing values "
-                        f"({round(n_missing/n*100,1)}% of rows).",
-            suggested_action="Impute or remove rows depending on missingness level.",
+            description=(
+                f"'{col_name}' has {n_missing:,} missing values "
+                f"({n_missing/n*100:.1f}% of rows)."
+            ),
+            suggested_action=(
+                "Impute or remove rows depending on missingness level."
+            ),
         ))
 
-    # Duplicates — only flag for non-numeric columns
-    if uniqueness_score < 0.90 and inferred_type not in ("categorical", "boolean", "numeric"):
-        n_dupes = int(series.duplicated(keep=False).sum())
+    # ── Uniqueness — non-numeric columns only ─────────────────────
+    if (uniqueness_score < 0.90
+            and inferred_type not in ("numeric", "boolean")):
+        non_null = series.dropna()
+        n_dupes  = int(non_null.duplicated(keep=False).sum())
         issues.append(QualityIssue(
             issue_type="duplicate_values",
-            severity=_severity(uniqueness_score, 0.70, 0.90),
+            severity=_severity(uniqueness_score),
             affected_rows=n_dupes,
             pct_affected=round(n_dupes / n * 100, 2),
-            description=f"'{col_name}' contains duplicate values "
-                        f"(uniqueness: {uniqueness_score:.2f}).",
+            description=(
+                f"'{col_name}' contains duplicate values "
+                f"(uniqueness: {uniqueness_score:.2f})."
+            ),
             suggested_action="Check if duplicates are intentional.",
         ))
 
-    # Format errors
+    # ── Validity ─────────────────────────────────────────────────
     if validity_score < 0.95:
-        n_invalid = int(round((1 - validity_score) * series.dropna().__len__()))
+        n_invalid = round((1 - validity_score) * series.dropna().shape[0])
         issues.append(QualityIssue(
-            issue_type="format_error",
-            severity=_severity(validity_score, 0.80, 0.95),
+            issue_type="format_errors",
+            severity=_severity(validity_score),
             affected_rows=n_invalid,
             pct_affected=round(n_invalid / n * 100, 2),
-            description=f"'{col_name}' has values that don't match "
-                        f"expected type '{inferred_type}'.",
-            suggested_action="Coerce to correct type and audit invalid values.",
+            description=(
+                f"'{col_name}' has {n_invalid:,} values that do not match "
+                f"the expected {inferred_type} format."
+            ),
+            suggested_action=(
+                "Check for mixed data types or unexpected formatting."
+            ),
         ))
 
-    # Inconsistency
+    # ── Consistency ───────────────────────────────────────────────
     if consistency_score < 0.95:
-        n_incon = int(round((1 - consistency_score) * series.dropna().__len__()))
+        if inferred_type == "numeric":
+            description = (
+                f"'{col_name}' has outlier values detected via IQR method "
+                f"(consistency: {consistency_score:.2f})."
+            )
+            suggested_action = (
+                "Investigate outliers — may indicate data entry errors "
+                "or sensor faults."
+            )
+        else:
+            description = (
+                f"'{col_name}' has mixed-case or inconsistent value formats "
+                f"(e.g. 'Leeds', 'leeds', 'LEEDS')."
+            )
+            suggested_action = (
+                "Standardise casing and formatting across all values."
+            )
+
+        non_null     = series.dropna()
+        n_affected   = max(1, round((1 - consistency_score) * len(non_null)))
         issues.append(QualityIssue(
             issue_type="inconsistency",
-            severity=_severity(consistency_score, 0.80, 0.95),
-            affected_rows=n_incon,
-            pct_affected=round(n_incon / n * 100, 2),
-            description=f"'{col_name}' has outliers or mixed-case values.",
-            suggested_action="Standardise casing or investigate outliers.",
+            severity=_severity(consistency_score),
+            affected_rows=n_affected,
+            pct_affected=round(n_affected / n * 100, 2),
+            description=description,
+            suggested_action=suggested_action,
         ))
 
     return issues
