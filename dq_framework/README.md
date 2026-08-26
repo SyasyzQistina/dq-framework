@@ -3,7 +3,7 @@
 **MSc Advanced Computer Science (Data Analytics)**  
 **University of Leeds — 2026**  
 **Student:** Syasya Qistina Binti Sheikh Kamar  
-**Supervisor:** Professor Roy A. Ruddle  
+**Supervisor:** Professor Samuel Wilson 
 
 ---
 
@@ -97,20 +97,6 @@ http://127.0.0.1:5000
 5. The quality report will open automatically in your browser
 6. Click **⬇ Download Report** to save the report as a standalone HTML file
 7. Click **← New Dataset** to return and upload another file
-
----
-
-## Sample Datasets
-
-Three sample datasets are included in the `sample_data/` folder for testing:
-
-| File | Description | Rows | Columns |
-|------|-------------|------|---------|
-| `air_quality.csv` | Air quality measurements from Leeds/Bradford monitoring stations | 10 | 6 |
-| `lcc_business_rates.csv` | Leeds City Council business property ratings | 23,455 | 18 |
-| `late_payment_interest.csv` | Late payment interest records | 9 | 9 |
-
-To test the system, upload `air_quality.csv` first — it is small and will generate a report in approximately 1–2 seconds.
 
 ---
 
