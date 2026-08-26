@@ -186,6 +186,7 @@ def column_scores_bar(profile: DatasetProfile, output_dir: str) -> str:
     ax.axvline(0.8, color="#BBBBBB", linestyle="--", linewidth=1, label="0.80")
     ax.axvline(0.95, color="#DDDDDD", linestyle=":", linewidth=1, label="0.95")
     ax.legend(fontsize=11, loc="lower right")
+    ax.set_yticks(range(n))
     ax.set_yticklabels(cols, fontsize=label_fs)
 
     for bar, score in zip(bars, scores):
